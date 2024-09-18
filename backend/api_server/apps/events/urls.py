@@ -7,7 +7,7 @@ from .api import (
     EventListView, EventDetailView,
     EventPhotoListView, EventPhotoDetailView,
     FeedbackListView, FeedbackDetailView,
-    SuggestionsListView, SuggestionsDetailView
+    SuggestionsListView, SuggestionsDetailView, JoinEventAPIView
 )
 
 urlpatterns = [
@@ -22,10 +22,12 @@ urlpatterns = [
 
     path('api/events/', EventListView.as_view(), name='event-list'),
     path('api/events/<int:pk>/', EventDetailView.as_view(), name='event-detail'),
+    path('api/events/<int:pk>/join/', JoinEventAPIView.as_view(), name='suggestions-list'),
 
     path('api/event-photos/', EventPhotoListView.as_view(), name='event-photo-list'),
 
     path('api/feedbacks/', FeedbackListView.as_view(), name='feedback-list'),
 
-    path('suggestions/', SuggestionsListView.as_view(), name='suggestions-list'),
+    path('api/suggestions/', SuggestionsListView.as_view(), name='suggestions-list'),
+
 ]

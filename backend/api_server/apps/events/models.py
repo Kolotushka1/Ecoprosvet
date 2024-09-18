@@ -1,5 +1,8 @@
+import asyncio
+
 from django.db import models
 
+from apps.events.services.telegram_informer import TelegramInformer
 from apps.main.models import User, District, Organization
 
 
@@ -13,6 +16,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class UserTag(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
@@ -35,12 +39,17 @@ class Event(models.Model):
     point_y = models.CharField(max_length=255)
     organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, null=True, verbose_name="Организация")
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # asyncio.create_task(TelegramInformer.mail(self))
+
     class Meta:
         verbose_name = "Мероприятие"
         verbose_name_plural = "Мероприятия"
 
     def __str__(self):
         return self.title
+
 
 class EventTag(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="Мероприятие", related_name='event_tags')
@@ -49,6 +58,16 @@ class EventTag(models.Model):
     class Meta:
         verbose_name = "Тег мероприятия"
         verbose_name_plural = "Теги мероприятий"
+
+
+class EventSub(models.Model):
+    active = models.BooleanField(default=True)
+    event = models.ForeignKey(Event, on_delete=models.DO_NOTHING, verbose_name="Мероприятие", related_name='event_users')
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name="Пользователь", related_name='event_users')
+
+    class Meta:
+        verbose_name = "Посетители мероприятия"
+        verbose_name_plural = "Посетители мероприятий"
 
 
 class EventPhoto(models.Model):

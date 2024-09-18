@@ -1,15 +1,18 @@
 import pandas as pd
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
-from django_mysql import status
-from rest_framework import viewsets
+from django.http import HttpResponse
+from rest_framework import viewsets, status
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
+from rest_framework.request import Request
 
 from .filters import UserFilter, OrganizationFilter, EventFilter
 from .models import (
-    User, Tag, UserTag, EventTag, Event, EventPhoto, Feedback, Suggestions
+    User, Tag, UserTag, EventTag, Event, EventPhoto, Feedback, Suggestions, EventSub
 )
 from .serializers import (
     UserSerializer, TagSerializer, UserTagSerializer, EventTagSerializer, EventSerializer,
@@ -108,6 +111,21 @@ class EventPhotoDetailView(APIView):
             return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
         serializer = EventPhotoSerializer(event_photo)
         return Response(serializer.data)
+
+
+class JoinEventAPIView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request: Request, pk):
+        # if not request.user.is_authenticated:
+        #     return Response({'detail': 'Not logged in.'}, status=status.HTTP_403_FORBIDDEN)
+        try:
+            event = Event.objects.get(pk=pk)
+        except Suggestions.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        EventSub.objects.create(event=event, user=request.user)
+        return Response('ok', status=status.HTTP_201_CREATED)
 
 
 class FeedbackListView(APIView):
@@ -231,19 +249,19 @@ def export_organizations_excel(request):
     return response
 
 
-class EventListView(ListAPIView):
-    queryset = Event.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = EventFilter
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
-        sort_by = self.request.GET.get('sort_by', None)
-        if sort_by:
-            queryset = queryset.order_by(sort_by)
-
-        return queryset
+# class EventListView(ListAPIView):
+#     queryset = Event.objects.all()
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_class = EventFilter
+#
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+#
+#         sort_by = self.request.GET.get('sort_by', None)
+#         if sort_by:
+#             queryset = queryset.order_by(sort_by)
+#
+#         return queryset
 
 
 def export_events_excel(request):

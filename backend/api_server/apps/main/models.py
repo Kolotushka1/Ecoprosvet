@@ -9,6 +9,9 @@ class District(models.Model):
         verbose_name = "Район"
         verbose_name_plural = "Районы"
 
+    def __str__(self):
+        return self.name
+
 
 class User(AbstractUser):
     telegram = models.CharField(max_length=255, blank=True, null=True, verbose_name="Телеграм")
@@ -31,6 +34,9 @@ class Organization(models.Model):
     class Meta:
         verbose_name = "Организация"
         verbose_name_plural = "Организации"
+
+    def __str__(self):
+        return self.name
 
 
 class OrganizationUsers(models.Model):
