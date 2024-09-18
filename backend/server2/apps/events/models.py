@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class District(models.Model):
     id = models.BigAutoField(primary_key=True, verbose_name='ID')
     name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Название района')
@@ -13,8 +12,30 @@ class District(models.Model):
         verbose_name_plural = 'Районы'
 
 
+class User(models.Model):
+    id = models.BigAutoField(primary_key=True, verbose_name='ID')
+    active = models.TextField(blank=True, null=True, verbose_name='Активен')  # Тип поля актив изменен на TextField
+    email = models.CharField(max_length=255, blank=True, null=True, verbose_name='Email')
+    email_confirm = models.TextField(blank=True, null=True, verbose_name='Подтверждение Email')
+    fio = models.CharField(max_length=255, blank=True, null=True, verbose_name='ФИО')
+    gender = models.CharField(max_length=255, blank=True, null=True, verbose_name='Пол')
+    login = models.CharField(max_length=255, blank=True, null=True, verbose_name='Логин')
+    password = models.CharField(max_length=255, blank=True, null=True, verbose_name='Пароль')
+    phone_number = models.CharField(max_length=255, blank=True, null=True, verbose_name='Телефон')
+    telegram = models.CharField(max_length=255, blank=True, null=True, verbose_name='Telegram')
+    district = models.ForeignKey(District, models.DO_NOTHING, db_column='district', blank=True, null=True,
+                                 verbose_name='Район')
+
+    class Meta:
+        managed = False
+        db_table = 'user'
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
+
 class Event(models.Model):
     id = models.BigAutoField(primary_key=True, verbose_name='ID')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=255, blank=True, null=True, verbose_name='Адрес')
     date = models.CharField(max_length=255, blank=True, null=True, verbose_name='Дата')
     description = models.CharField(max_length=255, blank=True, null=True, verbose_name='Описание')
@@ -29,6 +50,11 @@ class Event(models.Model):
         db_table = 'event'
         verbose_name = 'Событие'
         verbose_name_plural = 'События'
+
+
+class UserEvent(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class EventPhoto(models.Model):
@@ -127,27 +153,6 @@ class Tag(models.Model):
         db_table = 'tag'
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
-
-
-class User(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    active = models.TextField(blank=True, null=True, verbose_name='Активен')  # Тип поля актив изменен на TextField
-    email = models.CharField(max_length=255, blank=True, null=True, verbose_name='Email')
-    email_confirm = models.TextField(blank=True, null=True, verbose_name='Подтверждение Email')
-    fio = models.CharField(max_length=255, blank=True, null=True, verbose_name='ФИО')
-    gender = models.CharField(max_length=255, blank=True, null=True, verbose_name='Пол')
-    login = models.CharField(max_length=255, blank=True, null=True, verbose_name='Логин')
-    password = models.CharField(max_length=255, blank=True, null=True, verbose_name='Пароль')
-    phone_number = models.CharField(max_length=255, blank=True, null=True, verbose_name='Телефон')
-    telegram = models.CharField(max_length=255, blank=True, null=True, verbose_name='Telegram')
-    district = models.ForeignKey(District, models.DO_NOTHING, db_column='district', blank=True, null=True,
-                                 verbose_name='Район')
-
-    class Meta:
-        managed = False
-        db_table = 'user'
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
 
 
 class UserTag(models.Model):

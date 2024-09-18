@@ -10,11 +10,12 @@ from .models import (
     Role,
     Suggestions,
     Tag,
-    User,
     UserTag
 )
+from ..main.views import my_admin_site
 
-@admin.register(District)
+
+@admin.register(District, site=my_admin_site)
 class DistrictAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     search_fields = ('name',)
@@ -67,12 +68,6 @@ class SuggestionsAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     search_fields = ('name',)
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'login', 'fio', 'email', 'phone_number', 'telegram', 'district', 'active')
-    search_fields = ('login', 'fio', 'email', 'phone_number', 'telegram')
-    list_filter = ('district', 'active')
 
 @admin.register(UserTag)
 class UserTagAdmin(admin.ModelAdmin):

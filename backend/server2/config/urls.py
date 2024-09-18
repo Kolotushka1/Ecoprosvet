@@ -19,15 +19,10 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenVerifyView, TokenRefreshView, TokenObtainPairView
 
 urlpatterns = [
-    path('', include('apps.main.urls')),
-    path('', include('social_django.urls', namespace='social')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('events/', include('apps.events.urls')),
     path('admin/', admin.site.urls),
+    path('', include('apps.main.urls')),
 ]
-
-import jwt
-
-jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
