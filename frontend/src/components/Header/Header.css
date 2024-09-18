@@ -1,41 +1,6 @@
 .header {
-	display: flex;
 	max-inline-size: 100%;
 	justify-content: space-between;
 	padding: 15px 0;
 	margin: 0 0 30px 0;
-}
-
-.header__logo {
-}
-
-.header__logo-image {
-	inline-size: 58px;
-}
-
-.header__nav {
-	display: flex;
-	justify-content: space-between;
-	column-gap: 20px;
-}
-
-.header__nav-list {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	text-align: center;
-	column-gap: 30px;
-	color: #703412;
-}
-
-.header__nav-item {
-	cursor: pointer;
-}
-
-.header__nav-link {
-	font-size: 20px;
-}
-
-.header__nav-button:hover {
-	cursor: pointer;
 }
