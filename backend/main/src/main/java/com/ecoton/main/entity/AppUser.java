@@ -16,13 +16,14 @@ public class AppUser {
     private Long id;
     private String fio;
     private String telegram;
-    private String login;
     private String password;
     private String phoneNumber;
     private String gender;
     private String email;
     private Boolean emailConfirm;
-    private Boolean active;
+    private String age;
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private Boolean active = true;
     @ManyToOne
     @JoinColumn(name = "district")
     private District district;
