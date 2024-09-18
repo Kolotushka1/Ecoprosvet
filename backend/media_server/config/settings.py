@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -49,12 +50,15 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'main.User'
 
+
 def custom_headers(get_response):
     def middleware(request):
         response = get_response(request)
         response['Content-Security-Policy'] = "frame-ancestors *"
         return response
+
     return middleware
+
 
 SECURE_CONTENT_TYPE_NOSNIFF = False
 
@@ -106,7 +110,7 @@ DATABASES = {
         'NAME': 'ecoprosvet',
         'USER': 'ecoprosvet',
         'PASSWORD': 'ecoprosvet180924',
-        'HOST': '192.168.1.147',   # Or an IP Address that your DB is hosted on
+        'HOST': '192.168.1.147',  # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }
@@ -145,6 +149,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -167,6 +175,5 @@ CORS_ALLOWED_ORIGINS = [
     'http://192.168.1.168:8000',
 ]
 
-
-MEDIA_URL='/media/'
-MEDIA_ROOT = BASE_DIR /'media'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

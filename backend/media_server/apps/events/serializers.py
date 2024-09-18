@@ -27,7 +27,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'short_description', 'description', 'date', 'address', 'image', 'point_x',
+        fields = ['id', 'title', 'about', 'description', 'date', 'address', 'image', 'point_x',
                   'point_y', 'organization', 'tags', 'photos', 'district']
 
     @staticmethod
@@ -44,7 +44,7 @@ class EventSerializerShort(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'short_description', 'date', 'image', 'tags']
+        fields = ['id', 'title', 'about', 'date', 'image', 'tags']
 
     @staticmethod
     def get_tags(obj: Event):

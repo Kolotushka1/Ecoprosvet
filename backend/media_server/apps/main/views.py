@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 
 class IndexView(TemplateView):
-    template_name = 'main/index.html'
+    template_name = 'events/index.html'
 
 
 class OrganisationsView(TemplateView):
