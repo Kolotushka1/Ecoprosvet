@@ -21,7 +21,7 @@ public class AppUser {
     @Column(unique=true)
     private String telegram;
     @Column(unique=true)
-    private String telegram_id;
+    private Integer telegram_id;
     private String password;
     @Column(unique=true)
     private String phoneNumber;
@@ -35,4 +35,5 @@ public class AppUser {
     @ManyToOne
     @JoinColumn(name = "district")
     private District district;
+    private Boolean oauth = false;
 }

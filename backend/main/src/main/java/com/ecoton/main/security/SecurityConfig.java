@@ -1,5 +1,6 @@
 package com.ecoton.main.security;
 
+import com.ecoton.main.service.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,9 +26,11 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     private final JwtAuthEntryPoint authEntryPoint;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
-    public SecurityConfig(JwtAuthEntryPoint authEntryPoint) {
+    public SecurityConfig(JwtAuthEntryPoint authEntryPoint, CustomOAuth2UserService customOAuth2UserService) {
         this.authEntryPoint = authEntryPoint;
+        this.customOAuth2UserService = customOAuth2UserService;
     }
 
     @Bean

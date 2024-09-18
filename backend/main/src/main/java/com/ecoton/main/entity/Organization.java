@@ -20,4 +20,8 @@ public class Organization {
     private String inn;
     private Long userAdminId;
     private Boolean isActive = false;
+    private String address;
+    private String pointX;
+    private String pointY;
+    private Boolean isEcoCentre = false;
 }

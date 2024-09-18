@@ -2,9 +2,13 @@ package com.ecoton.main.service;
 
 import com.ecoton.main.dto.RegisterDto;
 import com.ecoton.main.dto.RegisterOrganizationDto;
+import com.ecoton.main.dto.oauth.YandexUserInfo;
 import com.ecoton.main.entity.AppUser;
 import com.ecoton.main.repository.AppUserRepository;
 import org.springframework.stereotype.Service;
+
+import java.security.SecureRandom;
+import java.util.Optional;
 
 @Service
 public class AppUserService {
@@ -28,8 +32,41 @@ public class AppUserService {
         return appUserRepository.findByEmail(userEmail).orElse(null);
     }
 
+    public AppUser createAppUserYandex(YandexUserInfo yandexUserInfo) {
+        AppUser appUser = new AppUser();
+        AppUser appUserNew = mapRegisterDtoToYandex(appUser, yandexUserInfo);
+        return appUserRepository.save(appUserNew);
+    }
+
     public boolean existsByEmail(String email) {
         return appUserRepository.existsByEmail(email);
+    }
+
+    public Optional<AppUser> findUserByEmail(String email) {
+        return appUserRepository.findByEmail(email);
+    }
+
+    public Optional<AppUser> findUserByPhone(String phone) {
+        return appUserRepository.findByPhoneNumber(phone);
+    }
+
+    public boolean existsByPhone(String phone) {
+        return appUserRepository.existsByPhoneNumber(phone);
+    }
+
+    public Optional<AppUser> findUserByEmailAndPhoneNumber(String email, String phone) {
+        return appUserRepository.findByEmailAndPhoneNumber(email, phone);
+    }
+
+    public String generateRandomPassword() {
+        String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        final int PASSWORD_LENGTH = 12;
+        final SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder(PASSWORD_LENGTH);
+        for (int i = 0; i < PASSWORD_LENGTH; i++) {
+            password.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+        }
+        return password.toString();
     }
 
     public AppUser mapRegisterDtoToAppUser(RegisterDto registerDto, String password) {
@@ -75,4 +112,17 @@ public class AppUserService {
 
         return appUser;
     }
+
+    public AppUser mapRegisterDtoToYandex(AppUser appUser, YandexUserInfo yandexUserInfo) {
+        appUser.setFio(yandexUserInfo.getFirst_name() + " " + yandexUserInfo.getLast_name());
+        appUser.setPhoneNumber(yandexUserInfo.getDefault_phone().getNumber());
+        appUser.setEmail(yandexUserInfo.getDefault_email());
+        appUser.setEmailConfirm(true);
+        appUser.setBirthDate(yandexUserInfo.getBirthday());
+        appUser.setActive(true);
+        appUser.setOauth(true);
+        appUser.setPassword(null);
+        return appUser;
+    }
+
 }

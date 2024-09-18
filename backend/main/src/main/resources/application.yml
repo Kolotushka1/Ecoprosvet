@@ -18,9 +18,10 @@ spring:
             client-secret: 137c5f39b2014593802f623821511b4f
             redirect-uri: "{baseUrl}/login/oauth2/code/yandex"
             authorization-grant-type: authorization_code
-            scope: login:email
+            scope: [login:email, login:info]
             client-name: Yandex
             provider: yandex
+            client-authentication-method: post
           vk:
             client-id: 52327148
             client-secret: mvL1LqKtcczdqToVwHpq
@@ -40,6 +41,10 @@ spring:
             token-uri: https://oauth.vk.com/access_token
             user-info-uri: https://api.vk.com/method/users.get
             user-name-attribute: response[0].id
-
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
 server:
   port: 8090
