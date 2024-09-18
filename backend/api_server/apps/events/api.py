@@ -279,8 +279,7 @@ def export_events_excel(request):
     for event in filtered_events:
         data.append({
             'ID': event.id,
-            'Название': event.name,
-            'Категория': event.category,
+            'Название': event.title,
             'Дата начала': event.start_date,
             'Дата окончания': event.end_date,
             'Организатор': event.organizer.name if event.organizer else '',
