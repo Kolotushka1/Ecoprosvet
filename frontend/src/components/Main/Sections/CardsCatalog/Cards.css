@@ -5,9 +5,10 @@
 	align-content: space-between;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
 	.cards__list {
 		grid-template-columns: repeat(1, 1fr);
 		justify-content: center;
+		gap: 20px;
 	}
 }

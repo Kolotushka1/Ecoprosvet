@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Card } from '../../../../components/Card/Card.js' // Импорт компонента карточки
 import { fetchEvents } from '../../../../services/Api.js'
+import { Card } from '../../../Card/Card.js' // Импорт компонента карточки
 import './Cards.css'
 export const Cards = () => {
 	const [events, setEvents] = useState([]) // Хук для хранения данных событий
@@ -37,6 +37,7 @@ export const Cards = () => {
 				{events.map(event => (
 					<Card
 						key={event.id} // Используем id события как ключ
+						id={event.id}
 						tags={event.tags} // Передаём теги
 						title={event.title} // Название события
 						about={event.about}

@@ -1,7 +1,13 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Navbar.css'
 
 export const Navbar = () => {
+	const [isOpen, setOpen] = useState(false)
+
+	const toggleMenu = () => {
+		setOpen(!isOpen)
+	}
 	return (
 		<nav className='header__nav'>
 			<Link className='header__logo' to='/'>
@@ -19,17 +25,17 @@ export const Navbar = () => {
 					</Link>
 				</li>
 				<li className='header__nav-item'>
-					<Link to='/news' className='header__nav-link'>
-						Новости
+					<Link to='/events' className='header__nav-link'>
+						Мероприятия
 					</Link>
 				</li>
 				<li className='header__nav-item'>
-					<Link to='/visitors' className='header__nav-link'>
-						Посетителям
+					<Link to='/about' className='header__nav-link'>
+						О нас
 					</Link>
 				</li>
-				<button className='header__nav-button'>
-					<img className='header__nav-button-image' src='menu.svg' alt='Меню' />
+				<button className='header__nav-button' onClick={toggleMenu}>
+					<img className='header__nav-button-image' src={isOpen ? 'close.svg' : 'menu.svg'} alt={isOpen ? 'Закрыть меню' : 'Открыть меню'} />
 				</button>
 			</ul>
 		</nav>

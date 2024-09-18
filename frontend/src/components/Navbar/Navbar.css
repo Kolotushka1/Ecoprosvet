@@ -29,6 +29,16 @@
 	text-decoration: none;
 }
 
+.header__nav-button {
+	display: none;
+}
+
 .header__nav-button:hover {
 	cursor: pointer;
+}
+
+@media (max-width: 725px) {
+	.header__nav-button {
+		display: block;
+	}
 }

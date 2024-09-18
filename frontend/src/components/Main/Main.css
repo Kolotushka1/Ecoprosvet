@@ -5,3 +5,9 @@
 	column-gap: 30px;
 	padding: 0 100px;
 }
+
+@media (max-width: 1200px) {
+	.main {
+		padding: 0 50px;
+	}
+}

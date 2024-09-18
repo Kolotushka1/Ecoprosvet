@@ -2,7 +2,7 @@ import './Footer.css'
 
 export const Footer = () => {
 	return (
-		<header className='footer'>
+		<footer className='footer'>
 			<a className='header__logo' href='#'>
 				<img className='header__logo-image' src='flower.svg' alt='Логотип сайта в виде цветка' />
 			</a>
@@ -25,6 +25,6 @@ export const Footer = () => {
 					<img className='header__nav-button-image' src='menu.svg' alt='Меню' />
 				</button>
 			</nav>
-		</header>
+		</footer>
 	)
 }
