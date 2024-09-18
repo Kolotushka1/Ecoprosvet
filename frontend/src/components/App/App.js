@@ -1,10 +1,12 @@
+import { Header } from '../Header/Header'
+import { Main } from '../Main/Main'
 import './App.css'
-import { Header } from './components/Header/Header'
 
 function App() {
 	return (
 		<div className='App'>
 			<Header />
+			<Main />
 		</div>
 	)
 }

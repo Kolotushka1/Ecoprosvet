@@ -1,0 +1,15 @@
+.card {
+	inline-size: 532px;
+}
+
+.card__tags-list {
+	display: flex;
+	column-gap: 9px;
+	margin: 0 0 14px 0;
+}
+
+.card__tags-item {
+	padding: 5px 13px;
+	background-color: burlywood; /* Сделать кастомный цвет*/
+	border-radius: 50px;
+}
