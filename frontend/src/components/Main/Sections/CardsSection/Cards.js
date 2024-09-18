@@ -39,7 +39,9 @@ export const Cards = () => {
 						key={event.id} // Используем id события как ключ
 						tags={event.tags} // Передаём теги
 						title={event.title} // Название события
+						about={event.about}
 						image={event.image} // Изображение события
+						date={event.date}
 						description={event.description} // Описание события
 						link={`/events/${event.id}`} // Ссылка на страницу события
 					/>

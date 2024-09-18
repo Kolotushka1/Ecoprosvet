@@ -8,6 +8,12 @@ body {
 	background-size: cover;
 	background-attachment: fixed;
 	min-inline-size: 320px;
-	background-color: #fefbf1;
+	background-color: #e9ffe9;
 	font-family: 'Mulish', sans-serif;
+}
+
+@media (max-width: 1200px) {
+	body {
+		padding: 0 5px;
+	}
 }

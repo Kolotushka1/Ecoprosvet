@@ -1,4 +1,3 @@
-import { Footer } from '../Footer/Footer'
 import { Header } from '../Header/Header'
 import { Main } from '../Main/Main'
 import './App.css'
@@ -12,7 +11,7 @@ function App() {
 			</YMaps>
 			<MapGenerator Objects={MapObjects} /> */}
 			<Main />
-			<Footer />
+			{/* <Footer /> */}
 		</div>
 	)
 }

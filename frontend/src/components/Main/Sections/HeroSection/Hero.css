@@ -1,16 +1,22 @@
 .hero-section {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 20px;
+	align-content: space-between;
+	column-gap: 20px;
 }
 
 .hero-section__title {
 	font-size: 30px;
 	text-transform: uppercase;
+	margin: 0 0 50px 0;
 }
 
 .hero-section__description {
 	font-size: 22px;
+}
+
+.hero-section__map {
+	justify-self: end;
 }
 
 .region {
@@ -18,12 +24,17 @@
 }
 
 .region:hover {
-	fill: #f00;  /* Укажите желаемый цвет при наведении */
+	fill: #f00; /* Укажите желаемый цвет при наведении */
 	transform: scale(1.01) translate(-1px, -1px); /* Увеличивает размер на 10% */
-
 }
+
 .map {
 	width: 431px;
 	height: 489px;
 }
 
+@media (max-width: 700px) {
+	.hero-section {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
