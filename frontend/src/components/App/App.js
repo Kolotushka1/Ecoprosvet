@@ -1,11 +1,8 @@
+import { Footer } from '../Footer/Footer'
 import { Header } from '../Header/Header'
 import { Main } from '../Main/Main'
-import CustomMap from '../Map/CustomMap'
-import { MapGenerator } from '../Map/MapGenerator'
-import { MapObjects } from '../Map/MapObjects'
 import './App.css'
 
-import { YMaps } from '@pbe/react-yandex-maps'
 function App() {
 	return (
 		<div className='App'>
@@ -15,6 +12,7 @@ function App() {
 			</YMaps>
 			<MapGenerator Objects={MapObjects} /> */}
 			<Main />
+			<Footer />
 		</div>
 	)
 }

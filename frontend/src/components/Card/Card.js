@@ -1,12 +1,12 @@
 import './Card.css'
 
 
-export const Card = ({ tags, title, image, description, link }) => {
+export const Card = ({ id, tags, title, image, description, link }) => {
 	return (
 		<article className='card'>
 			<ul className='card__tags-list'>
 				{tags.map((tag, index) => (
-					<li key={index} className={`card__tags-item card__tags-item--${tag.color}`}>
+					<li key={index}>
 						<a className='card__tags-link' href='#'>
 							{tag.text}
 						</a>
