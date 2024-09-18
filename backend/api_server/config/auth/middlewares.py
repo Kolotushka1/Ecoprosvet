@@ -1,6 +1,10 @@
 import requests
 from django.http import JsonResponse
 
+import jwt  # Если используете JWT для декодирования
+from django.http import JsonResponse
+from django.conf import settings
+from your_app.models import AppUser  # Импорт модели пользователя
 
 class TokenAuthMiddleware:
     def __init__(self, get_response):
@@ -13,24 +17,29 @@ class TokenAuthMiddleware:
         if token is None:
             return JsonResponse({'error': 'Authorization token is missing'}, status=401)
 
-        # Отправляем запрос на сервер авторизации для проверки токена
-        auth_response = self._check_token(token)
+        # Проверка и декодирование токена
+        try:
+            email = self._get_email_from_token(token)
+        except jwt.ExpiredSignatureError:
+            return JsonResponse({'error': 'Token has expired'}, status=401)
+        except jwt.InvalidTokenError:
+            return JsonResponse({'error': 'Invalid token'}, status=401)
 
-        if not auth_response['authorized']:
-            return JsonResponse({'error': 'Unauthorized'}, status=401)
+        # Поиск пользователя по email
+        try:
+            user = AppUser.objects.get(email=email)
+            request.user = user  # Устанавливаем пользователя в запрос
+        except AppUser.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
 
-        # Если все в порядке, пропускаем запрос дальше
+        # Пропускаем запрос дальше, если все в порядке
         response = self.get_response(request)
         return response
 
-    def _check_token(self, token):
-        # Пример запроса на сервер авторизации (замените URL на нужный)
-        try:
-            response = requests.post(
-                'http://192.168.1.147:8090/api/auth/check/token',  # замените на ваш URL
-                headers={'Authorization': token}
-            )
-            # Преобразуем ответ в JSON
-            return response.json()
-        except requests.RequestException as e:
-            return {'authorized': False, 'error': str(e)}
+    def _get_email_from_token(self, token):
+        # Убираем 'Bearer ' из токена, если оно есть
+        token = token.split(' ')[1] if ' ' in token else token
+
+        # Декодируем JWT-токен (secret_key нужно заменить на ваш)
+        decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS512"])
+        return decoded_token['email']

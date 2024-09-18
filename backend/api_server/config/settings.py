@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'apps.organisations',
 ]
 
-AUTH_USER_MODEL = 'main.User'
+AUTH_USER_MODEL = 'main.DjangoUser'
 
 
 def custom_headers(get_response):

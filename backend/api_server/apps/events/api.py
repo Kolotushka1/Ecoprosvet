@@ -19,6 +19,7 @@ from .serializers import (
     EventPhotoSerializer, FeedbackSerializer, SuggestionsSerializer, DistrictSerializer, EventSerializerShort
 )
 from ..main.models import District, Organization
+from ..main.serializers import OrganizationSerializer
 
 
 class TagListView(APIView):
@@ -208,9 +209,9 @@ def export_users_excel(request):
 
 
 class OrganizationListView(ListAPIView):
+    model = Organization
+    serializer_class = OrganizationSerializer
     queryset = Organization.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = OrganizationFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()

@@ -8,7 +8,7 @@ from .api import (
     EventPhotoListView, EventPhotoDetailView,
     FeedbackListView, FeedbackDetailView,
     SuggestionsListView, SuggestionsDetailView, JoinEventAPIView,
-    export_events_excel, export_users_excel, export_organizations_excel
+    export_events_excel, export_users_excel, export_organizations_excel, OrganizationListView
 )
 
 urlpatterns = [
@@ -30,6 +30,8 @@ urlpatterns = [
     path('api/feedbacks/', FeedbackListView.as_view(), name='feedback-list'),
 
     path('api/suggestions/', SuggestionsListView.as_view(), name='suggestions-list'),
+
+    path('api/organizations/', OrganizationListView.as_view()),
 
     path('export/users/', export_users_excel, name='export_users_excel'),
     path('export/organizations/', export_organizations_excel, name='export_organizations_excel'),

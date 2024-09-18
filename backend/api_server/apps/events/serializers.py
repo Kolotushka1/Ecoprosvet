@@ -9,7 +9,7 @@ from .models import (
     User,
     UserTag
 )
-from ..main.models import District
+from ..main.models import District, Organization
 from ..main.serializers import OrganizationSerializer
 
 
