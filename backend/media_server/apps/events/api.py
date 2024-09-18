@@ -1,8 +1,13 @@
+import pandas as pd
+from django.http import HttpResponse
+from django_filters.rest_framework import DjangoFilterBackend
 from django_mysql import status
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 
+from .filters import UserFilter, OrganizationFilter, EventFilter
 from .models import (
     User, Tag, UserTag, EventTag, Event, EventPhoto, Feedback, Suggestions
 )
@@ -10,7 +15,7 @@ from .serializers import (
     UserSerializer, TagSerializer, UserTagSerializer, EventTagSerializer, EventSerializer,
     EventPhotoSerializer, FeedbackSerializer, SuggestionsSerializer, DistrictSerializer, EventSerializerShort
 )
-from ..main.models import District
+from ..main.models import District, Organization
 
 
 class TagListView(APIView):
@@ -137,3 +142,134 @@ class SuggestionsDetailView(APIView):
             return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
         serializer = SuggestionsSerializer(suggestion)
         return Response(serializer.data)
+
+
+class UserListView(ListAPIView):
+    queryset = User.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = UserFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        sort_by = self.request.GET.get('sort_by', None)
+        if sort_by:
+            queryset = queryset.order_by(sort_by)
+
+        return queryset
+
+
+def export_users_excel(request):
+    filtered_users = UserFilter(request.GET, queryset=User.objects.all()).qs
+
+    sort_by = request.GET.get('sort_by', None)
+    if sort_by:
+        filtered_users = filtered_users.order_by(sort_by)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=users.xlsx'
+
+    data = []
+    for user in filtered_users:
+        data.append({
+            'ID': user.id,
+            'Имя': user.username,
+            'Пол': user.get_gender_display(),
+            'Email': user.email,
+            'Район': user.district.name if user.district else '',
+            'Телефон': user.phone_number,
+            'Подтверждение Email': user.email_confirm
+        })
+
+    df = pd.DataFrame(data)
+
+    with pd.ExcelWriter(response, engine='xlsxwriter') as writer:
+        df.to_excel(writer, index=False)
+
+    return response
+
+
+class OrganizationListView(ListAPIView):
+    queryset = Organization.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = OrganizationFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        sort_by = self.request.GET.get('sort_by', None)
+        if sort_by:
+            queryset = queryset.order_by(sort_by)
+
+        return queryset
+
+
+def export_organizations_excel(request):
+    filtered_organizations = OrganizationFilter(request.GET, queryset=Organization.objects.all()).qs
+
+    sort_by = request.GET.get('sort_by', None)
+    if sort_by:
+        filtered_organizations = filtered_organizations.order_by(sort_by)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=organizations.xlsx'
+
+    data = []
+    for org in filtered_organizations:
+        data.append({
+            'ID': org.id,
+            'Название': org.name,
+            'Тип': org.get_org_type_display(),
+            'Данные': org.data
+        })
+
+    df = pd.DataFrame(data)
+
+    with pd.ExcelWriter(response, engine='xlsxwriter') as writer:
+        df.to_excel(writer, index=False)
+
+    return response
+
+
+class EventListView(ListAPIView):
+    queryset = Event.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = EventFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        sort_by = self.request.GET.get('sort_by', None)
+        if sort_by:
+            queryset = queryset.order_by(sort_by)
+
+        return queryset
+
+
+def export_events_excel(request):
+    filtered_events = EventFilter(request.GET, queryset=Event.objects.all()).qs
+
+    sort_by = request.GET.get('sort_by', None)
+    if sort_by:
+        filtered_events = filtered_events.order_by(sort_by)
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=events.xlsx'
+
+    data = []
+    for event in filtered_events:
+        data.append({
+            'ID': event.id,
+            'Название': event.name,
+            'Категория': event.category,
+            'Дата начала': event.start_date,
+            'Дата окончания': event.end_date,
+            'Организатор': event.organizer.name if event.organizer else '',
+        })
+
+    df = pd.DataFrame(data)
+
+    with pd.ExcelWriter(response, engine='xlsxwriter') as writer:
+        df.to_excel(writer, index=False)
+
+    return response
