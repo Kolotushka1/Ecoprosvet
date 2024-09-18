@@ -3,13 +3,15 @@ package com.ecoton.main.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class RegisterDto {
+public class RegisterOrganizationDto {
     @NotBlank(message = "Почта обязательная")
     @Email(message = "Почта должна быть валидной")
     private String email;
+    @NotBlank()
     private String phone;
     @NotBlank(message = "Необходим пароль")
     @Pattern(
@@ -20,6 +22,13 @@ public class RegisterDto {
     private String password; // обязательно
     @NotBlank(message = "Подтверждение пароля должно быть заполнено")
     private String passwordSecond; // обязательно
+    @NotBlank()
+    private String organizationName; // обязательно
+    @NotBlank()
+    private String addressRegistration; // обязательно
+    @NotBlank(message = "Должен быть 12 цифр")
+    @Size(min = 12, max = 12)
+    private String inn; // обязательно
     @NotBlank()
     private String name; // обязательно
     @NotBlank()

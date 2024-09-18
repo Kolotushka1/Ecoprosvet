@@ -1,5 +1,7 @@
 package com.ecoton.main.security;
 
+import com.ecoton.main.repository.AppUserRepository;
+import com.ecoton.main.service.CustomOAuth2UserService;
 import com.ecoton.main.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -22,10 +27,12 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthEntryPoint authEntryPoint;
+    private final AppUserRepository appUserRepository;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthEntryPoint authEntryPoint) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthEntryPoint authEntryPoint, AppUserRepository appUserRepository) {
         this.customUserDetailsService = customUserDetailsService;
         this.authEntryPoint = authEntryPoint;
+        this.appUserRepository = appUserRepository;
     }
 
     @Bean
@@ -60,7 +67,17 @@ public class SecurityConfig {
                         exception.authenticationEntryPoint(authEntryPoint)
                 )
                 .csrf(AbstractHttpConfigurer::disable);
+//                .oauth2Login(oauth ->
+//                        oauth.defaultSuccessUrl("/", true)
+//                                .userInfoEndpoint()
+//                                .userService(customOAuth2UserService())
+//                )
         return http.build();
     }
+
+//    @Bean
+//    public OAuth2UserService<OAuth2UserRequest, OAuth2User> customOAuth2UserService() {
+//        return new CustomOAuth2UserService(appUserRepository);
+//    }
 
 }

@@ -2,6 +2,9 @@ package com.ecoton.main.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "user")
@@ -15,14 +18,19 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fio;
+    @Column(unique=true)
     private String telegram;
+    @Column(unique=true)
+    private String telegram_id;
     private String password;
+    @Column(unique=true)
     private String phoneNumber;
-    private String gender;
+    private Boolean gender;
+    @Column(unique=true)
     private String email;
     private Boolean emailConfirm;
-    private String age;
-    @Column(nullable = false, columnDefinition = "boolean default true")
+    private Date birthDate;
+    @Column(nullable = false)
     private Boolean active = true;
     @ManyToOne
     @JoinColumn(name = "district")
