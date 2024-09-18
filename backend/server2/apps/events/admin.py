@@ -1,75 +1,53 @@
 from django.contrib import admin
 from .models import (
-    District,
-    Event,
-    EventPhoto,
-    EventTag,
-    Feedback,
-    Organization,
-    OrganizationUsers,
-    Role,
-    Suggestions,
-    Tag,
-    UserTag
+    Tag, EventTag, Event, EventPhoto, Feedback, Suggestions
 )
-from ..main.views import my_admin_site
 
-
-@admin.register(District, site=my_admin_site)
-class DistrictAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    search_fields = ('name',)
-
-@admin.register(Event)
-class EventAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'address', 'date', 'description', 'district', 'organization', 'tag')
-    search_fields = ('name', 'address', 'description')
-    list_filter = ('district', 'organization', 'tag')
-
-@admin.register(EventPhoto)
-class EventPhotoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'path', 'sort', 'event')
-    search_fields = ('path',)
-    list_filter = ('event',)
-
-@admin.register(EventTag)
-class EventTagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'event', 'tag')
-    list_filter = ('event', 'tag')
-
-@admin.register(Feedback)
-class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ('id', 'comment', 'rating', 'event', 'user')
-    search_fields = ('comment',)
-    list_filter = ('event', 'user', 'rating')
-
-@admin.register(Organization)
-class OrganizationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'data')
-    search_fields = ('name',)
-
-@admin.register(OrganizationUsers)
-class OrganizationUsersAdmin(admin.ModelAdmin):
-    list_display = ('id', 'organization', 'role', 'user')
-    list_filter = ('organization', 'role', 'user')
-
-@admin.register(Role)
-class RoleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    search_fields = ('name',)
-
-@admin.register(Suggestions)
-class SuggestionsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'content', 'user')
-    search_fields = ('content',)
-    list_filter = ('user',)
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('name',)
     search_fields = ('name',)
 
-@admin.register(UserTag)
-class UserTagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'interese')
-    list_filter = ('user', 'interese')
+
+class EventTagInline(admin.TabularInline):
+    model = EventTag
+    extra = 1
+
+
+class EventPhotoInline(admin.TabularInline):
+    model = EventPhoto
+    extra = 1
+
+
+@admin.register(EventTag)
+class EventTagAdmin(admin.ModelAdmin):
+    list_display = ('event', 'tag')
+    search_fields = ('event__name', 'tag__name')
+
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('title', 'date', 'address', 'district', 'organization')
+    list_filter = ('date', 'district', 'organization')
+    search_fields = ('title', 'address')
+    inlines = [EventTagInline, EventPhotoInline]  # Встраиваем EventTag
+
+
+@admin.register(EventPhoto)
+class EventPhotoAdmin(admin.ModelAdmin):
+    list_display = ('event', 'image', 'sort')
+    list_filter = ('event',)
+
+
+@admin.register(Feedback)
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ('user', 'event', 'rating', 'comment')
+    list_filter = ('rating', 'event')
+    search_fields = ('user__first_name', 'event__name')
+
+
+@admin.register(Suggestions)
+class SuggestionsAdmin(admin.ModelAdmin):
+    list_display = ('user', 'content')
+    search_fields = ('user__first_name', 'content')

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['192.168.1.168', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'jazzmin',
     'social_django',
     'rest_framework',
@@ -43,9 +44,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'apps.main',
     'apps.events',
+    'apps.organisations',
 ]
 
-# AUTH_USER_MODEL = 'main.User'
+AUTH_USER_MODEL = 'main.User'
 
 def custom_headers(get_response):
     def middleware(request):
@@ -57,6 +59,8 @@ def custom_headers(get_response):
 SECURE_CONTENT_TYPE_NOSNIFF = False
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'config.settings.custom_headers',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -130,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Krasnoyarsk'
 
 USE_I18N = True
 
@@ -156,3 +160,13 @@ JAZZMIN_SETTINGS = {"show_ui_builder": True}
 
 SOCIAL_AUTH_TELEGRAM_BOT_TOKEN = os.getenv('SOCIAL_AUTH_TELEGRAM_BOT_TOKEN')
 LOGIN_REDIRECT_URL = '/'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
+    'http://localhost:3000',
+    'http://192.168.1.168:8000',
+]
+
+
+MEDIA_URL='/media/'
+MEDIA_ROOT = BASE_DIR /'media'

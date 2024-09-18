@@ -1,167 +1,87 @@
 from django.db import models
 
-
-class District(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Название района')
-
-    class Meta:
-        managed = False
-        db_table = 'district'
-        verbose_name = 'Район'
-        verbose_name_plural = 'Районы'
-
-
-class User(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    active = models.TextField(blank=True, null=True, verbose_name='Активен')  # Тип поля актив изменен на TextField
-    email = models.CharField(max_length=255, blank=True, null=True, verbose_name='Email')
-    email_confirm = models.TextField(blank=True, null=True, verbose_name='Подтверждение Email')
-    fio = models.CharField(max_length=255, blank=True, null=True, verbose_name='ФИО')
-    gender = models.CharField(max_length=255, blank=True, null=True, verbose_name='Пол')
-    login = models.CharField(max_length=255, blank=True, null=True, verbose_name='Логин')
-    password = models.CharField(max_length=255, blank=True, null=True, verbose_name='Пароль')
-    phone_number = models.CharField(max_length=255, blank=True, null=True, verbose_name='Телефон')
-    telegram = models.CharField(max_length=255, blank=True, null=True, verbose_name='Telegram')
-    district = models.ForeignKey(District, models.DO_NOTHING, db_column='district', blank=True, null=True,
-                                 verbose_name='Район')
-
-    class Meta:
-        managed = False
-        db_table = 'user'
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
-
-
-class Event(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    address = models.CharField(max_length=255, blank=True, null=True, verbose_name='Адрес')
-    date = models.CharField(max_length=255, blank=True, null=True, verbose_name='Дата')
-    description = models.CharField(max_length=255, blank=True, null=True, verbose_name='Описание')
-    name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Название')
-    district = models.ForeignKey(District, models.DO_NOTHING, blank=True, null=True, verbose_name='Район')
-    organization = models.ForeignKey('Organization', models.DO_NOTHING, blank=True, null=True,
-                                     verbose_name='Организация')
-    tag = models.ForeignKey('Tag', models.DO_NOTHING, blank=True, null=True, verbose_name='Тег')
-
-    class Meta:
-        managed = False
-        db_table = 'event'
-        verbose_name = 'Событие'
-        verbose_name_plural = 'События'
-
-
-class UserEvent(models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True)
-
-
-class EventPhoto(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    path = models.CharField(max_length=255, blank=True, null=True, verbose_name='Путь')
-    sort = models.IntegerField(verbose_name='Порядок')
-    event = models.ForeignKey(Event, models.DO_NOTHING, blank=True, null=True, verbose_name='Событие')
-
-    class Meta:
-        managed = False
-        db_table = 'event_photo'
-        verbose_name = 'Фото события'
-        verbose_name_plural = 'Фотографии событий'
-
-
-class EventTag(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    event = models.ForeignKey(Event, models.DO_NOTHING, blank=True, null=True, verbose_name='Событие')
-    tag = models.ForeignKey('Tag', models.DO_NOTHING, blank=True, null=True, verbose_name='Тег')
-
-    class Meta:
-        managed = False
-        db_table = 'event_tag'
-        verbose_name = 'Тег события'
-        verbose_name_plural = 'Теги событий'
-
-
-class Feedback(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    comment = models.CharField(max_length=255, blank=True, null=True, verbose_name='Комментарий')
-    rating = models.IntegerField(verbose_name='Оценка')
-    event = models.ForeignKey(Event, models.DO_NOTHING, blank=True, null=True, verbose_name='Событие')
-    user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, verbose_name='Пользователь')
-
-    class Meta:
-        managed = False
-        db_table = 'feedback'
-        verbose_name = 'Отзыв'
-        verbose_name_plural = 'Отзывы'
-
-
-class Organization(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    data = models.CharField(max_length=255, blank=True, null=True, verbose_name='Данные')
-    name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Название')
-
-    class Meta:
-        managed = False
-        db_table = 'organization'
-        verbose_name = 'Организация'
-        verbose_name_plural = 'Организации'
-
-
-class OrganizationUsers(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    organization = models.ForeignKey(Organization, models.DO_NOTHING, blank=True, null=True, verbose_name='Организация')
-    role = models.ForeignKey('Role', models.DO_NOTHING, blank=True, null=True, verbose_name='Роль')
-    user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, verbose_name='Пользователь')
-
-    class Meta:
-        managed = False
-        db_table = 'organization_users'
-        verbose_name = 'Пользователь организации'
-        verbose_name_plural = 'Пользователи организаций'
-
-
-class Role(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Название роли')
-
-    class Meta:
-        managed = False
-        db_table = 'role'
-        verbose_name = 'Роль'
-        verbose_name_plural = 'Роли'
-
-
-class Suggestions(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    content = models.CharField(max_length=255, blank=True, null=True, verbose_name='Содержание предложения')
-    user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, verbose_name='Пользователь')
-
-    class Meta:
-        managed = False
-        db_table = 'suggestions'
-        verbose_name = 'Предложение'
-        verbose_name_plural = 'Предложения'
+from apps.main.models import User, District, Organization
 
 
 class Tag(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Название')
+    active = models.BooleanField(default=True)
+    name = models.CharField(max_length=100, verbose_name="Название")
 
     class Meta:
-        managed = False
-        db_table = 'tag'
-        verbose_name = 'Тег'
-        verbose_name_plural = 'Теги'
+        verbose_name = "Тег"
+        verbose_name_plural = "Теги"
 
+    def __str__(self):
+        return self.name
 
 class UserTag(models.Model):
-    id = models.BigAutoField(primary_key=True, verbose_name='ID')
-    interese = models.ForeignKey(Tag, models.DO_NOTHING, blank=True, null=True, verbose_name='Интерес')
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True, verbose_name='Пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, verbose_name="Тег")
 
     class Meta:
-        managed = False
-        db_table = 'user_tag'
-        verbose_name = 'Интерес пользователя'
-        verbose_name_plural = 'Интересы пользователей'
+        verbose_name = "Тег пользователя"
+        verbose_name_plural = "Теги пользователей"
+
+
+class Event(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Название")
+    short_description = models.CharField(max_length=255, verbose_name="Короткое описание")
+    description = models.TextField(verbose_name="Описание")
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, verbose_name="Район")
+    date = models.DateTimeField(verbose_name="Дата")
+    address = models.CharField(max_length=255, verbose_name="Адрес")
+    image = models.ImageField(upload_to='events')
+    point_x = models.CharField(max_length=255)
+    point_y = models.CharField(max_length=255)
+    organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, null=True, verbose_name="Организация")
+
+    class Meta:
+        verbose_name = "Мероприятие"
+        verbose_name_plural = "Мероприятия"
+
+    def __str__(self):
+        return self.title
+
+class EventTag(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="Мероприятие", related_name='event_tags')
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, verbose_name="Тег", related_name='event_tags')
+
+    class Meta:
+        verbose_name = "Тег мероприятия"
+        verbose_name_plural = "Теги мероприятий"
+
+
+class EventPhoto(models.Model):
+    image = models.ImageField(upload_to='events/photos', verbose_name="Путь")
+    sort = models.IntegerField(verbose_name="Сортировка", default=500)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="Мероприятие", related_name='event_photos')
+
+    class Meta:
+        verbose_name = "Фотография мероприятия"
+        verbose_name_plural = "Фотографии мероприятий"
+
+
+class Feedback(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="Мероприятие")
+    rating = models.IntegerField(verbose_name="Рейтинг")
+    comment = models.TextField(verbose_name="Комментарий")
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+
+    def __str__(self):
+        return self.user
+
+
+class Suggestions(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    content = models.TextField(verbose_name="Содержание")
+
+    class Meta:
+        verbose_name = "Предложение"
+        verbose_name_plural = "Предложения"
+
+    def __str__(self):
+        return self.user

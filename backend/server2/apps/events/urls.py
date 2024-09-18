@@ -1,36 +1,31 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .api import (
-    DistrictViewSet,
-    EventViewSet,
-    EventPhotoViewSet,
-    EventTagViewSet,
-    FeedbackViewSet,
-    OrganizationViewSet,
-    OrganizationUsersViewSet,
-    RoleViewSet,
-    SuggestionsViewSet,
-    TagViewSet,
-    UserViewSet,
-    UserTagViewSet
+    TagListView, TagDetailView,
+    UserTagListView, UserTagDetailView,
+    EventTagListView, EventTagDetailView,
+    EventListView, EventDetailView,
+    EventPhotoListView, EventPhotoDetailView,
+    FeedbackListView, FeedbackDetailView,
+    SuggestionsListView, SuggestionsDetailView
 )
 
-# Создаем экземпляр DefaultRouter
-router = DefaultRouter()
-# Регистрируем ViewSet с роутером
-router.register(r'districts', DistrictViewSet)
-router.register(r'events', EventViewSet)
-router.register(r'event-photos', EventPhotoViewSet)
-router.register(r'event-tags', EventTagViewSet)
-router.register(r'feedbacks', FeedbackViewSet)
-router.register(r'organizations', OrganizationViewSet)
-router.register(r'organisation-users', OrganizationUsersViewSet)
-router.register(r'roles', RoleViewSet)
-router.register(r'suggestions', SuggestionsViewSet)
-router.register(r'tags', TagViewSet)
-router.register(r'users', UserViewSet)
-router.register(r'user-tags', UserTagViewSet)
-
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/tags/', TagListView.as_view(), name='tag-list'),
+    path('api/tags/<int:pk>/', TagDetailView.as_view(), name='tag-detail'),
+
+    path('api/user-tags/', UserTagListView.as_view(), name='user-tag-list'),
+    path('api/user-tags/<int:pk>/', UserTagDetailView.as_view(), name='user-tag-detail'),
+
+    path('api/event-tags/', EventTagListView.as_view(), name='event-tag-list'),
+    path('api/event-tags/<int:pk>/', EventTagDetailView.as_view(), name='event-tag-detail'),
+
+    path('api/events/', EventListView.as_view(), name='event-list'),
+    path('api/events/<int:pk>/', EventDetailView.as_view(), name='event-detail'),
+
+    path('api/event-photos/', EventPhotoListView.as_view(), name='event-photo-list'),
+
+    path('api/feedbacks/', FeedbackListView.as_view(), name='feedback-list'),
+
+    path('suggestions/', SuggestionsListView.as_view(), name='suggestions-list'),
 ]

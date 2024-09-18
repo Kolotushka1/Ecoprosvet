@@ -1,91 +1,139 @@
+from django_mysql import status
 from rest_framework import viewsets
-from rest_framework.routers import DefaultRouter
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import (
-    District,
-    Event,
-    EventPhoto,
-    EventTag,
-    Feedback,
-    Organization,
-    OrganizationUsers,
-    Role,
-    Suggestions,
-    Tag,
-    User,
-    UserTag
+    User, Tag, UserTag, EventTag, Event, EventPhoto, Feedback, Suggestions
 )
 from .serializers import (
-    DistrictSerializer,
-    EventSerializer,
-    EventPhotoSerializer,
-    EventTagSerializer,
-    FeedbackSerializer,
-    OrganizationSerializer,
-    OrganizationUsersSerializer,
-    RoleSerializer,
-    SuggestionsSerializer,
-    TagSerializer,
-    UserSerializer,
-    UserTagSerializer
+    UserSerializer, TagSerializer, UserTagSerializer, EventTagSerializer, EventSerializer,
+    EventPhotoSerializer, FeedbackSerializer, SuggestionsSerializer, DistrictSerializer, EventSerializerShort
 )
+from ..main.models import District
 
 
-class DistrictViewSet(viewsets.ModelViewSet):
-    queryset = District.objects.all()
-    serializer_class = DistrictSerializer
+class TagListView(APIView):
+    def get(self, request):
+        tags = Tag.objects.all()
+        serializer = TagSerializer(tags, many=True)
+        return Response(serializer.data)
 
 
-class EventViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
+class TagDetailView(APIView):
+    def get(self, request, pk):
+        try:
+            tag = Tag.objects.get(pk=pk)
+        except Tag.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = TagSerializer(tag)
+        return Response(serializer.data)
 
 
-class EventPhotoViewSet(viewsets.ModelViewSet):
-    queryset = EventPhoto.objects.all()
-    serializer_class = EventPhotoSerializer
+class UserTagListView(APIView):
+    def get(self, request):
+        user_tags = UserTag.objects.all()
+        serializer = UserTagSerializer(user_tags, many=True)
+        return Response(serializer.data)
 
 
-class EventTagViewSet(viewsets.ModelViewSet):
-    queryset = EventTag.objects.all()
-    serializer_class = EventTagSerializer
+class UserTagDetailView(APIView):
+    def get(self, request, pk):
+        try:
+            user_tag = UserTag.objects.get(pk=pk)
+        except UserTag.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = UserTagSerializer(user_tag)
+        return Response(serializer.data)
 
 
-class FeedbackViewSet(viewsets.ModelViewSet):
-    queryset = Feedback.objects.all()
-    serializer_class = FeedbackSerializer
+class EventTagListView(APIView):
+    def get(self, request):
+        event_tags = EventTag.objects.all()
+        serializer = EventTagSerializer(event_tags, many=True)
+        return Response(serializer.data)
 
 
-class OrganizationViewSet(viewsets.ModelViewSet):
-    queryset = Organization.objects.all()
-    serializer_class = OrganizationSerializer
+class EventTagDetailView(APIView):
+    def get(self, request, pk):
+        try:
+            event_tag = EventTag.objects.get(pk=pk)
+        except EventTag.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = EventTagSerializer(event_tag)
+        return Response(serializer.data)
 
 
-class OrganizationUsersViewSet(viewsets.ModelViewSet):
-    queryset = OrganizationUsers.objects.all()
-    serializer_class = OrganizationUsersSerializer
+class EventListView(APIView):
+    def get(self, request):
+        tags_ids = request.GET.get('tags', None)
+        distinct_ids = request.GET.get('distincts', None)
+        _filter = {}
+        if tags_ids:
+            _filter['tags__id__in'] = tags_ids
+        if distinct_ids:
+            _filter['distinct_id__in'] = distinct_ids
+        events = Event.objects.filter(**_filter)
+        serializer = EventSerializerShort(events, many=True)
+        return Response(serializer.data)
 
 
-class RoleViewSet(viewsets.ModelViewSet):
-    queryset = Role.objects.all()
-    serializer_class = RoleSerializer
+class EventDetailView(APIView):
+    def get(self, request, pk):
+        try:
+            event = Event.objects.get(pk=pk)
+        except Event.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = EventSerializer(event)
+        return Response(serializer.data)
 
 
-class SuggestionsViewSet(viewsets.ModelViewSet):
-    queryset = Suggestions.objects.all()
-    serializer_class = SuggestionsSerializer
+class EventPhotoListView(APIView):
+    def get(self, request):
+        event_photos = EventPhoto.objects.all()
+        serializer = EventPhotoSerializer(event_photos, many=True)
+        return Response(serializer.data)
 
 
-class TagViewSet(viewsets.ModelViewSet):
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
+class EventPhotoDetailView(APIView):
+    def get(self, request, pk):
+        try:
+            event_photo = EventPhoto.objects.get(pk=pk)
+        except EventPhoto.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = EventPhotoSerializer(event_photo)
+        return Response(serializer.data)
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class FeedbackListView(APIView):
+    def get(self, request):
+        feedbacks = Feedback.objects.all()
+        serializer = FeedbackSerializer(feedbacks, many=True)
+        return Response(serializer.data)
 
 
-class UserTagViewSet(viewsets.ModelViewSet):
-    queryset = UserTag.objects.all()
-    serializer_class = UserTagSerializer
+class FeedbackDetailView(APIView):
+    def get(self, request, pk):
+        try:
+            feedback = Feedback.objects.get(pk=pk)
+        except Feedback.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = FeedbackSerializer(feedback)
+        return Response(serializer.data)
+
+
+class SuggestionsListView(APIView):
+    def get(self, request):
+        suggestions = Suggestions.objects.all()
+        serializer = SuggestionsSerializer(suggestions, many=True)
+        return Response(serializer.data)
+
+
+class SuggestionsDetailView(APIView):
+    def get(self, request, pk):
+        try:
+            suggestion = Suggestions.objects.get(pk=pk)
+        except Suggestions.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = SuggestionsSerializer(suggestion)
+        return Response(serializer.data)
