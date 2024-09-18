@@ -60,10 +60,8 @@ public class JwtGenerator {
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
-            System.out.println(token);
             return true;
         } catch (JwtException ex) {
-            System.out.println("JWT Error: " + ex.getMessage());
             throw new AuthenticationCredentialsNotFoundException("JWT was exprired or incorrect", ex);
         }
     }

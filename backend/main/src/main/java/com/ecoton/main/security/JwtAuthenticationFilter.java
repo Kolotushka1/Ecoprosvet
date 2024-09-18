@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,7 +21,9 @@ import java.util.stream.Collectors;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    @Autowired
     private JwtGenerator tokenGenerator;
+    @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
     @Override
@@ -30,14 +33,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(token) && tokenGenerator.validateToken(token)) {
             String username = tokenGenerator.getEmailFromJWT(token);
 
-            List<String> roles = tokenGenerator.getRolesFromJWT(token);
-            List<GrantedAuthority> authorities = roles.stream()
-                    .map(role -> new SimpleGrantedAuthority(role.replace("ROLE_", "")))
-                    .collect(Collectors.toList());
+//            List<String> roles = tokenGenerator.getRolesFromJWT(token);
+//            List<GrantedAuthority> authorities = roles.stream()
+//                    .map(role -> new SimpleGrantedAuthority(role.replace("ROLE_", "")))
+//                    .collect(Collectors.toList());
 
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                    new UsernamePasswordAuthenticationToken(userDetails, null, null);
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
