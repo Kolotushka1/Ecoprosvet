@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['192.168.1.168', 'localhost']
 INSTALLED_APPS = [
     'corsheaders',
     'jazzmin',
+    'channels',
     'social_django',
     'rest_framework',
     'django.contrib.admin',
@@ -48,7 +49,7 @@ INSTALLED_APPS = [
     'apps.organisations',
 ]
 
-AUTH_USER_MODEL = 'main.User'
+AUTH_USER_MODEL = 'main.DjangoUser'
 
 
 def custom_headers(get_response):
@@ -95,7 +96,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+# WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

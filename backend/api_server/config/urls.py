@@ -15,18 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import path, include
+from django.contrib.admin import AdminSite
 from rest_framework_simplejwt.views import TokenVerifyView, TokenRefreshView, TokenObtainPairView
 
 from config import settings
+
+from apps.main.admin_dashboard import site_admin
 
 urlpatterns = [
     # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('', include('apps.events.urls')),
-    path('admin/', admin.site.urls),
+    path('admin/', site_admin.urls),
     path('organisations/', include('apps.organisations.urls')),
     path('temp/', include('apps.main.urls')),
 ]
