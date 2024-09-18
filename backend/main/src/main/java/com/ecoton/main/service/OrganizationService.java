@@ -1,5 +1,7 @@
 package com.ecoton.main.service;
 
+import com.ecoton.main.dto.AppOrganizationUsersDto;
+import com.ecoton.main.dto.AppUserOrganizationDto;
 import com.ecoton.main.dto.RegisterOrganizationDto;
 import com.ecoton.main.entity.AppUser;
 import com.ecoton.main.entity.Organization;
@@ -7,6 +9,10 @@ import com.ecoton.main.entity.OrganizationUsers;
 import com.ecoton.main.repository.OrganizationRepository;
 import com.ecoton.main.repository.OrganizationUserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrganizationService {
@@ -28,11 +34,33 @@ public class OrganizationService {
         addUserToOrganization(appUser, newOrganization);
     }
 
+    public Organization getOrganizationInfo(AppUser appUser) {
+        OrganizationUsers organizationUsers = organizationUserRepository.findOrganizationUsersByUser(appUser).orElse(null);
+        if (organizationUsers != null) {
+            Long organizationId = organizationUsers.getId();
+            return organizationRepository.findById(organizationId).orElse(null);
+        }
+        return null;
+    }
+
+    public List<AppOrganizationUsersDto> getOrganizationUsers() {
+        List<OrganizationUsers> organizationUsers = organizationUserRepository.findAll();
+        return organizationUsers.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     public void addUserToOrganization(AppUser user, Organization organization) {
         OrganizationUsers organizationUser = new OrganizationUsers();
         organizationUser.setUser(user);
         organizationUser.setOrganization(organization);
         organizationUserRepository.save(organizationUser);
+    }
+    private AppOrganizationUsersDto convertToDto(OrganizationUsers organizationUser) {
+        AppOrganizationUsersDto dto = new AppOrganizationUsersDto();
+        dto.setId(organizationUser.getId());
+        dto.setUser(organizationUser.getUser());
+        return dto;
     }
 
 }

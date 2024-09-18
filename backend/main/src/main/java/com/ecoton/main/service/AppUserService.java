@@ -24,6 +24,10 @@ public class AppUserService {
         return appUserRepository.save(appUser);
     }
 
+    public AppUser getUserData(String userEmail) {
+        return appUserRepository.findByEmail(userEmail).orElse(null);
+    }
+
     public boolean existsByEmail(String email) {
         return appUserRepository.existsByEmail(email);
     }

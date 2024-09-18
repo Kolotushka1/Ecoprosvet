@@ -34,6 +34,7 @@ public class AuthController {
         this.appUserService = appUserService;
         this.organizationService = organizationService;
     }
+
     @PostMapping("register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterDto registerDto, BindingResult result) {
 
