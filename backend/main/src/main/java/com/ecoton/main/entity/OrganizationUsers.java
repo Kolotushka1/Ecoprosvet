@@ -20,7 +20,4 @@ public class OrganizationUsers {
     @ManyToOne
     @JoinColumn(name = "organization_id")
     private Organization organization;
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
 }

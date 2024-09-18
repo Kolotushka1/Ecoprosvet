@@ -1,7 +1,7 @@
 package com.ecoton.main.service;
 
 import com.ecoton.main.entity.AppUser;
-import com.ecoton.main.repository.AppUserRepositoy;
+import com.ecoton.main.repository.AppUserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,15 +13,15 @@ import java.util.ArrayList;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final AppUserRepositoy appUserRepositoy;
+    private final AppUserRepository appUserRepository;
 
-    public CustomUserDetailsService(AppUserRepositoy appUserRepositoy) {
-        this.appUserRepositoy = appUserRepositoy;
+    public CustomUserDetailsService(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AppUser appUser = appUserRepositoy.findByEmail(email)
+        AppUser appUser = appUserRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
         boolean isActive = appUser.getActive() != null ? appUser.getActive() : false;

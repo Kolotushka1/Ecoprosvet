@@ -3,10 +3,11 @@ package com.ecoton.main.controller;
 import com.ecoton.main.dto.AuthResponseDto;
 import com.ecoton.main.dto.LoginDto;
 import com.ecoton.main.dto.RegisterDto;
+import com.ecoton.main.dto.RegisterOrganizationDto;
 import com.ecoton.main.entity.AppUser;
-import com.ecoton.main.repository.AppUserRepositoy;
-import com.ecoton.main.repository.RoleRepository;
 import com.ecoton.main.security.JwtGenerator;
+import com.ecoton.main.service.AppUserService;
+import com.ecoton.main.service.OrganizationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,27 +23,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
     private final JwtGenerator jwtGenerator;
-    private final AppUserRepositoy appUserRepository;
     private final PasswordEncoder passwordEncoder;
-    public final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final AppUserService appUserService;
+    private final OrganizationService organizationService;
 
     @Autowired
-    public AuthController(AppUserRepositoy appUserRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtGenerator jwtGenerator) {
-        this.appUserRepository = appUserRepository;
+    public AuthController(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtGenerator jwtGenerator, AppUserService appUserService, OrganizationService organizationService) {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtGenerator = jwtGenerator;
+        this.appUserService = appUserService;
+        this.organizationService = organizationService;
     }
     @PostMapping("register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterDto registerDto, BindingResult result) {
 
-        if (appUserRepository.existsByEmail(registerDto.getEmail())) {
+        if (appUserService.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Почта занята!", HttpStatus.BAD_REQUEST);
         }
 
@@ -54,13 +55,35 @@ public class AuthController {
             return new ResponseEntity<>("Пароли не совпадают", HttpStatus.BAD_REQUEST);
         }
 
-        AppUser appUser = new AppUser();
-        appUser.setEmail(registerDto.getEmail());
-        appUser.setPassword(passwordEncoder.encode((registerDto.getPassword())));
-
-        appUserRepository.save(appUser);
+        String password = passwordEncoder.encode(registerDto.getPassword());
+        System.out.println(password);
+        appUserService.createAppUser(registerDto, password);
 
         return new ResponseEntity<>("Пользователь успешно зарегистрирован!", HttpStatus.OK);
+    }
+
+    @PostMapping("register/organization")
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterOrganizationDto registerOrganizationDto, BindingResult result) {
+
+        if (appUserService.existsByEmail(registerOrganizationDto.getEmail())) {
+            return new ResponseEntity<>("Почта занята!", HttpStatus.BAD_REQUEST);
+        }
+
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(result.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        if (!registerOrganizationDto.getPassword().equals(registerOrganizationDto.getPasswordSecond())) {
+            return new ResponseEntity<>("Пароли не совпадают", HttpStatus.BAD_REQUEST);
+        }
+
+        String password = passwordEncoder.encode(registerOrganizationDto.getPassword());
+
+        AppUser appUser = appUserService.createAppUser(registerOrganizationDto, password);
+
+        organizationService.createOrganization(registerOrganizationDto, appUser);
+
+        return new ResponseEntity<>("Пользователь успешно зарегистрирован! Ваша организация на проверке.", HttpStatus.OK);
     }
 
     @PostMapping("login")
@@ -72,4 +95,11 @@ public class AuthController {
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
+
+    @PostMapping("/oauth2/login")
+    public ResponseEntity<AuthResponseDto> oauth2Login(Authentication authentication) {
+        String token = jwtGenerator.generateToken(authentication.getName());
+        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
+    }
+
 }
