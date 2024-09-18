@@ -14,20 +14,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenVerifyView, TokenRefreshView, TokenObtainPairView
 
+from config import settings
+
 urlpatterns = [
-    path('', include('apps.main.urls')),
-    path('', include('social_django.urls', namespace='social')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('events/', include('apps.events.urls')),
     path('admin/', admin.site.urls),
+    path('organisations/', include('apps.organisations.urls')),
+    path('', include('apps.main.urls')),
 ]
 
-import jwt
 
-jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
