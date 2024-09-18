@@ -25,7 +25,7 @@ class UserTag(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=255, verbose_name="Название")
-    short_description = models.CharField(max_length=255, verbose_name="Короткое описание")
+    about = models.CharField(max_length=255, verbose_name="Короткое описание")
     description = models.TextField(verbose_name="Описание")
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, verbose_name="Район")
     date = models.DateTimeField(verbose_name="Дата")
