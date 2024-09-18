@@ -28,8 +28,13 @@ class User(AbstractUser):
 
 
 class Organization(models.Model):
+    is_active = models.BooleanField(default=True, verbose_name="Активна")
     name = models.CharField(max_length=255, verbose_name="Название")
     data = models.TextField(verbose_name="Данные")
+    address = models.CharField(max_length=255, verbose_name="Адрес")
+    point_x = models.CharField(max_length=255)
+    point_y = models.CharField(max_length=255)
+    is_eco_centre = models.BooleanField(default=False, verbose_name='Эко-центр')
 
     class Meta:
         verbose_name = "Организация"

@@ -27,7 +27,7 @@ class TokenAuthMiddleware:
         # Пример запроса на сервер авторизации (замените URL на нужный)
         try:
             response = requests.post(
-                'https://auth-server.com/api/verify-token',  # замените на ваш URL
+                'http://192.168.1.147:8090/api/auth/check/token',  # замените на ваш URL
                 headers={'Authorization': token}
             )
             # Преобразуем ответ в JSON
