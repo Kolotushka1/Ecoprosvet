@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: corpo
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecoprosvet
+    username: ecoprosvet
+    password: ecoprosvet180924
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8090
