@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.request import Request
 
+from config.auth.middleware import external_service_auth
 from .filters import UserFilter, OrganizationFilter, EventFilter
 from .models import (
     User, Tag, UserTag, EventTag, Event, EventPhoto, Feedback, Suggestions, EventSub
@@ -24,9 +25,12 @@ from .serializers import (
 from ..main.models import District, Organization
 from ..main.serializers import OrganizationSerializer
 
+TOKEN_VERIFY_URL = 'http://192.168.0.109:8090/api/auth/check/token/'
+
 
 class TagListView(APIView):
     @staticmethod
+    @external_service_auth(TOKEN_VERIFY_URL)
     def get(request):
         tags = Tag.objects.all()
         serializer = TagSerializer(tags, many=True)
@@ -261,7 +265,7 @@ def export_organizations_excel(request):
     for org in filtered_organizations:
         org: Organization
         data.append({
-           'ID': org.id,
+            'ID': org.id,
             'Название': org.organization_name,
             'Тип': org.org_type,
             'Юридический адрес': org.address_registration,

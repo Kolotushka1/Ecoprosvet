@@ -64,6 +64,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = False
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    # 'config.auth.middleware.JWTAuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'config.settings.custom_headers',
