@@ -3,6 +3,7 @@ import './AuthForm.css';
 import axios from 'axios';
 import { MAX_BASE_URL } from '../../utils/constants';
 import { Login, Register } from '../Authorization/Auth';
+import { YandexAuth } from '../Authorization/YandexAuth';
 
 export const AuthForm = () => {
   const [isSignup, setIsSignup] = useState(false);
@@ -28,7 +29,10 @@ export const AuthForm = () => {
       <div className='auth-forms'>
         <div className='auth-form auth-form--login'>
           <span className='auth-form__title'>Авторизация</span>
-          <form action='#'>
+          <div className='auth-form__input-field auth-form__input-field--button'>
+              <YandexAuth />
+            </div>
+          <form action=''>
             <div className='auth-form__input-field'>
               <input
                 type='text'
@@ -61,11 +65,12 @@ export const AuthForm = () => {
                 onClick={ handelLogin }
               />
             </div>
+            
           </form>
           <div className='auth-form__login-signup'>
             <span className='auth-form__text'>
               Нет аккаунта?
-              <a href='#' className='auth-form__link auth-form__link--signup' onClick={toggleForm}>
+              <a href='' className='auth-form__link auth-form__link--signup' onClick={toggleForm}>
                 Зарегистрируйтесь
               </a>
             </span>
@@ -74,7 +79,7 @@ export const AuthForm = () => {
 
         <div className='auth-form auth-form--signup'>
           <span className='auth-form__title'>Регистрация</span>
-          <form action='#'>
+          <form action=''>
             <div className='auth-form__input-field'>
               <input
                 type='text'
@@ -150,11 +155,12 @@ export const AuthForm = () => {
                 onClick={handelRegister}
               />
             </div>
+            
           </form>
           <div className='auth-form__login-signup'>
             <span className='auth-form__text'>
               Есть аккаунт?
-              <a href='#' className='auth-form__link auth-form__link--login' onClick={toggleForm}>
+              <a href='' className='auth-form__link auth-form__link--login' onClick={toggleForm}>
                 Авторизируйтесь
               </a>
             </span>
