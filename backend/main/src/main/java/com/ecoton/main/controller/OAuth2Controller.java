@@ -41,7 +41,6 @@ public class OAuth2Controller {
 
     @PostMapping("/oauth2/yandex")
     public ResponseEntity<?> yandexLogin(@RequestBody OAuth2TokenRequest loginRequest) {
-
         YandexUserInfo yandexData = customOAuth2UserService.getYandexData(loginRequest.getToken());
 
         Optional<AppUser> appUser = appUserService.findUserByEmailAndPhoneNumber(yandexData.getDefault_email(), yandexData.getDefault_phone().getNumber());
@@ -73,10 +72,5 @@ public class OAuth2Controller {
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
-
-//    @PostMapping("/oauth2/vk")
-//    public ResponseEntity<?> vkLogin(@RequestBody OAuth2TokenRequest loginRequest) {
-//
-//    }
 
 }
