@@ -1,7 +1,6 @@
 .auth-container {
 	position: relative;
-	min-inline-size: 430px;
-	inline-size: 50%;
+	inline-size: 500px;
 	background: #fff;
 	border-radius: 10px;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
@@ -141,4 +140,23 @@
 
 .auth-form__link:hover {
 	text-decoration: underline;
+}
+
+@media (max-width: 560px) {
+	.auth-forms {
+		block-size: 400px;
+	}
+
+	.auth-form__input-field {
+		width: 100%;
+		margin-top: 15px;
+	}
+
+	.auth-container {
+		max-inline-size: 100%;
+	}
+
+	.auth-form__login-signup {
+		margin-top: 10px;
+	}
 }

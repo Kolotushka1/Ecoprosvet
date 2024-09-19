@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { fetchEvent } from '../../services/Api'
+import { formatDate } from '../../utils/formatDate'
 import './CurrentEvents.css'
 
 export const CurrentEvent = () => {
@@ -54,13 +55,24 @@ export const CurrentEvent = () => {
 		setCurrentImageIndex(prevIndex => (prevIndex === 0 ? event.photos.length - 1 : prevIndex - 1))
 	}
 
+	const formatedDate = formatDate(event.date)
 	return (
 		<article className='event'>
 			{event && (
 				<>
 					<h1 className='event__title'>{event.title}</h1>
+					<ul className='card__tags-list'>
+						{event.tags.map(tag => (
+							<li className='card__tags-item' key={tag.id}>
+								<Link className='card__tags-link' to={'/'}>
+									{tag}
+								</Link>
+							</li>
+						))}
+					</ul>
+
 					{event.photos && event.photos.length > 0 && (
-						<div className='slider'>
+						<article className='slider'>
 							<div className='slider__image-wrapper'>
 								<img className='slider__image' src={event.photos[currentImageIndex]} alt={`Slide ${currentImageIndex + 1}`} />
 							</div>
@@ -70,12 +82,11 @@ export const CurrentEvent = () => {
 							<button className='slider__button slider__button--right' onClick={nextSlide}>
 								<img className='slider__button-image' src='/arrow-right.svg' alt='Стрелка для переключения слайдов вправо' />
 							</button>
-						</div>
+						</article>
 					)}
 
-					<p className='event__date'>
-						Дата проведения: <strong>{event.date}</strong>
-					</p>
+					<p className='event__date'>Дата проведения:</p>
+					<p className='event__date-text'>{formatedDate}</p>
 					<p className='event__description'>{event.description}</p>
 				</>
 			)}

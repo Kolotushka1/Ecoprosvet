@@ -19,7 +19,7 @@ function App() {
 					<Route path='/events' element={<Events />} />
 					<Route path='/map' element={<Map />} />
 					<Route path='/events/:id' element={<Event />} />
-					<Route path='/authorization' element={<Authorization />} />
+					<Route path='/auth' element={<Authorization />} />
 					<Route path='/createvt' element={<CreateEvent />} />
 				</Routes>
 				<Footer />

@@ -10,19 +10,19 @@ export const TagFilter = ({ selectedTags, onTagChange }) => {
 	useEffect(() => {
 		const loadTags = async () => {
 			try {
-				console.log('Загрузка тегов началась') // Диагностика
-				const tagsData = await fetchTags() // Получаем теги с API
-				console.log('Теги получены:', tagsData) // Отладка полученных тегов
-				setTags(tagsData) // Устанавливаем теги в состояние
+				console.log('Загрузка тегов началась') 
+				const tagsData = await fetchTags() 
+				console.log('Теги получены:', tagsData) 
+				setTags(tagsData) 
 			} catch (error) {
-				console.error('Ошибка при загрузке тегов:', error) // Отладка ошибок
+				console.error('Ошибка при загрузке тегов:', error) 
 				setError('Ошибка при загрузке тегов')
 			} finally {
 				setLoading(false)
 			}
 		}
 		loadTags()
-	}, []) // Не забудьте передать зависимость - пустой массив, чтобы запрос отправлялся один раз
+	}, [])
 
 	if (loading) {
 		return <div>Загрузка тегов...</div>
@@ -34,7 +34,7 @@ export const TagFilter = ({ selectedTags, onTagChange }) => {
 
 	return (
 		<div className='tag-filter'>
-		<h2 className="events-title">События</h2>
+			<h2 className='events-title'>События</h2>
 			<p className='tag-filter__text'>Фильтрация</p>
 			<ul className='tag-filter__list'>
 				{tags.map(tag => (

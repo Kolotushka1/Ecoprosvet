@@ -21,7 +21,7 @@ const CustomAddEventMap = ({ address, onCoordsChange }) => {
       const coordinates = firstGeoObject.geometry.getCoordinates();
 
       setCoords(coordinates);
-      onCoordsChange(coordinates[0], coordinates[1]); // Send coordinates back to EventForm
+      onCoordsChange(coordinates[0], coordinates[1]); 
       map.setCenter(coordinates, 14);
       setLoading(false);
     }).catch(() => {

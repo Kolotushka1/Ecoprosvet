@@ -41,17 +41,17 @@ export const Footer = () => {
 			<ul className='footer__social-list'>
 				<li className='footer__social-list-item'>
 					<Link className='footer__social-link' to='#'>
-						<img className='footer__social-icon' src='./telegram.svg' alt='Иконка Ютуб' />
+						<img className='footer__social-icon' src='/telegram.svg' alt='Иконка Ютуб' />
 					</Link>
 				</li>
 				<li className='footer__social-list-item'>
 					<Link className='footer__social-link' to='#'>
-						<img className='footer__social-icon' src='./telegram.svg' alt='Иконка Вконтакте' />
+						<img className='footer__social-icon' src='/telegram.svg' alt='Иконка Вконтакте' />
 					</Link>
 				</li>
 				<li className='footer__social-list-item'>
 					<Link className='footer__social-link' to='#'>
-						<img className='footer__social-icon' src='./telegram.svg' alt='Иконка Пинтерест' />
+						<img className='footer__social-icon' src='/telegram.svg' alt='Иконка Пинтерест' />
 					</Link>
 				</li>
 			</ul>

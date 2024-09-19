@@ -1,8 +1,5 @@
-.header__logo {
-}
-
 .header__logo-image {
-	inline-size: 58px;
+	min-inline-size: 58px;
 }
 
 .header__nav {
@@ -18,7 +15,6 @@
 	transition: max-height 0.3s ease, opacity 0.3s ease;
 	flex-direction: row;
 	align-items: center;
-	text-align: center;
 	column-gap: 30px;
 	color: #000000;
 }
@@ -27,9 +23,14 @@
 	cursor: pointer;
 }
 
+.header__nav-link:hover {
+	text-decoration: underline;
+}
+
 .header__nav-item--auth {
+	position: relative;
 	padding: 10px 20px;
-	transition: 0.3s linear;
+	transition: background-color 0.3s linear, color 0.3s linear;
 	background-color: #d5d3d3;
 	border-radius: 20px;
 }
@@ -38,6 +39,7 @@
 	padding: 10px 20px;
 	background-color: #8e9e81;
 	color: #fff;
+	text-decoration: none;
 }
 
 .header__nav-link {

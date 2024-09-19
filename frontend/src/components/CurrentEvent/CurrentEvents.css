@@ -8,14 +8,23 @@
 	margin: 0 0 50px 0;
 }
 
+.card__tags-list {
+	display: flex;
+	flex-direction: row;
+}
+
+.card__tags-link {
+	font-size: 100px;
+}
+
 .slider {
 	position: relative;
-	max-inline-size: 600px;
+	max-inline-size: 800px;
 	block-size: 400px;
 	overflow: hidden;
 	align-items: center;
 	border-radius: 20px;
-	margin: 0 auto;
+	margin: 0 0 20px 0;
 }
 
 .slider__image-wrapper {
@@ -50,6 +59,20 @@
 	right: 10px;
 }
 
-.slider__button:hover {
-	background-color: rgba(0, 0, 0, 0.7);
+.event__title {
+	font-size: 30px;
+}
+
+.event__date {
+	display: inline-block;
+	padding: 5px 10px;
+	background-color: #526146a1;
+	color: #fff;
+	border-radius: 20px;
+	margin: 0 0 10px 0;
+}
+
+.event__date-text {
+	font-size: 20px;
+	margin: 0 0 20px 0;
 }
