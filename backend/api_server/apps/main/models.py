@@ -33,16 +33,17 @@ class User(models.Model):
     class Meta:
         managed = False
         db_table = 'user'
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
     def get_gender_display(self):
-
         return {
             1: "М",
             0: "Ж"
         }[self.gender]
 
     def __str__(self):
-        return self.email + ' ' + self.fio
+        return (self.email or '') + ' ' + (self.fio or '') + ' id:' + str(self.id)
 
 
 class DjangoUser(AbstractUser):
@@ -63,17 +64,17 @@ class DjangoUser(AbstractUser):
 class Organization(models.Model):
     id = models.BigAutoField(primary_key=True)
     address_registration = models.CharField(max_length=255, verbose_name='Адрес регистрации')
-    inn = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=False)
-    organization_name = models.CharField(max_length=255)
-    user_admin = models.ForeignKey(User, on_delete=models.DO_NOTHING, db_column='user_admin_id')
-    address = models.CharField(max_length=255)
-    is_eco_centre = models.BooleanField(default=False)
-    pointx = models.CharField(max_length=255)
-    pointy = models.CharField(max_length=255)
-    data = models.TextField()
-    org_type = models.CharField(max_length=3, blank=True, null=True)
-
+    inn = models.CharField(max_length=255, verbose_name='ИНН')
+    is_active = models.BooleanField(default=False, verbose_name='Активно')
+    organization_name = models.CharField(max_length=255, verbose_name='Наименование организации')
+    user_admin = models.ForeignKey(User, on_delete=models.DO_NOTHING, db_column='user_admin_id',
+                                   verbose_name='Администратор')
+    address = models.CharField(max_length=255, verbose_name='Адрес')
+    is_eco_centre = models.BooleanField(default=False, verbose_name='Эко-центр')
+    pointx = models.CharField(max_length=255, verbose_name='Точка Х')
+    pointy = models.CharField(max_length=255, verbose_name='Точка Y')
+    data = models.TextField(verbose_name='Информация')
+    org_type = models.CharField(max_length=3, blank=True, null=True, verbose_name='Тип организации')
 
     class Meta:
         managed = False

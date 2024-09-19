@@ -19,8 +19,8 @@ class Tag(models.Model):
 
 
 class UserTag(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, verbose_name="Тег")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь", related_name='user_tags')
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, verbose_name="Тег", related_name='user_tags')
 
     class Meta:
         verbose_name = "Тег пользователя"
@@ -104,3 +104,4 @@ class Suggestions(models.Model):
 
     def __str__(self):
         return self.user
+

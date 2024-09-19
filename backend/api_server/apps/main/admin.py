@@ -23,25 +23,9 @@ class OrganizationSubInline(TabularInline):
     verbose_name_plural = "Подписки пользователя"
 
 
-# Кастомизация модели пользователя в админке
-
-# class UserAdmin(BaseUserAdmin):
-#     fieldsets = (
-#         (None, {'fields': ('username', 'password')}),
-#         ('Персональная информация',
-#          {'fields': ('first_name', 'last_name', 'email', 'telegram', 'phone_number', 'gender', 'district')}),
-#         ('Права доступа', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
-#         ('Статус', {'fields': ('email_confirm', 'active')}),
-#         ('Даты', {'fields': ('last_login', 'date_joined')}),
-#     )
-#
-#     # Подключаем inline формы
-#     inlines = [OrganizationUsersInline, OrganizationSubInline]
-#
-#     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'active')
-#     search_fields = ('username', 'email', 'first_name', 'last_name')
-#     list_filter = ('is_staff', 'is_superuser', 'is_active', 'gender', 'district')
-#     ordering = ('username',)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'fio',)
+    search_fields = ('id', 'fio',)
 
 
 class DistrictAdmin(admin.ModelAdmin):
@@ -61,7 +45,7 @@ class OrganizationUsersAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'organization__name')
 
 
-# site_admin.register(User, UserAdmin)
+site_admin.register(User, UserAdmin)
 site_admin.register(District, DistrictAdmin)
 site_admin.register(Organization, OrganizationAdmin)
 site_admin.register(OrganizationUsers, OrganizationUsersAdmin)

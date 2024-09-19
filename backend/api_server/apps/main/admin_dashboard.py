@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from apps.events.models import Event
+from apps.events.models import Event, Tag
 
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -14,6 +14,7 @@ class MailSender(View):
     @staticmethod
     def get(request, *args, **kwargs):
         context = {
+            'tags': Tag.objects.all(),
             'events': Event.objects.filter(date__gt=timezone.now()).order_by('-date'),
         }
         return render(request, 'admin/custom_pages/mail_send.html', context)

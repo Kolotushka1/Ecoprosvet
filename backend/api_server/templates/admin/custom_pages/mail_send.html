@@ -1,17 +1,21 @@
 {% extends "admin/index.html" %}
 
 {% block content %}
-    <h1>Рассылка по мероприятиям</h1>
-    <table>
+    <form action="">
+    <h5>Проинформировать подписчиков о мероприятиях</h5>
+    <h6>Рассылка по тегам</h6>
+    <br>
+    <table border="1">
         <tr>
-            <th>Выделить все<br><input class="big_center_checkbox" type="checkbox" id="select-all"></th>
-            <th colspan="3">Игрок</th>
-            <th>Дата рождения</th>
-            <th>Игры</th>
-            <th>Баллы</th>
+            <th></th>
+            <th>Тэг</th>
         </tr>
+        {% for tag in tags %}
+            <tr>
+                <td></td>
+                <td>{{ tag.name }}</td>
+            </tr>
+        {% endfor %}
     </table>
-    {% for event in events %}
-        {{ event }}
-    {% endfor %}
+</form>
 {% endblock %}

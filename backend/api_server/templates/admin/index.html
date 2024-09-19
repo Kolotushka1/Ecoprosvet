@@ -1,12 +1,27 @@
 {% extends "admin/index.html" %}
 
 {% block messages %}
-    {{block.super}}
-    {% include 'admin/components/organisations/new_event.html' %}
-    <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="ecoprosvetbot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
-<script type="text/javascript">
-  function onTelegramAuth(user) {
-    alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-  }
-</script>
+    {{ block.super }}
+    {#    {% include 'admin/components/organisations/new_event.html' %}#}
+
+    <div class="col-md-6 col-sm-12">
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="m-0">Рассылки</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <a href="/admin/mail_send/">Проинформировать подписчиков о мероприятии</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

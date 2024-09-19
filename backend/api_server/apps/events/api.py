@@ -16,21 +16,24 @@ from .models import (
 )
 from .serializers import (
     UserSerializer, TagSerializer, UserTagSerializer, EventTagSerializer, EventSerializer,
-    EventPhotoSerializer, FeedbackSerializer, SuggestionsSerializer, DistrictSerializer, EventSerializerShort
+    EventPhotoSerializer, FeedbackSerializer, SuggestionsSerializer, DistrictSerializer, EventSerializerShort,
+    EventCreateSerializer
 )
 from ..main.models import District, Organization
 from ..main.serializers import OrganizationSerializer
 
 
 class TagListView(APIView):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         tags = Tag.objects.all()
         serializer = TagSerializer(tags, many=True)
         return Response(serializer.data)
 
 
 class TagDetailView(APIView):
-    def get(self, request, pk):
+    @staticmethod
+    def get(request, pk):
         try:
             tag = Tag.objects.get(pk=pk)
         except Tag.DoesNotExist:
@@ -40,14 +43,16 @@ class TagDetailView(APIView):
 
 
 class UserTagListView(APIView):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         user_tags = UserTag.objects.all()
         serializer = UserTagSerializer(user_tags, many=True)
         return Response(serializer.data)
 
 
 class UserTagDetailView(APIView):
-    def get(self, request, pk):
+    @staticmethod
+    def get(request, pk):
         try:
             user_tag = UserTag.objects.get(pk=pk)
         except UserTag.DoesNotExist:
@@ -57,14 +62,16 @@ class UserTagDetailView(APIView):
 
 
 class EventTagListView(APIView):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         event_tags = EventTag.objects.all()
         serializer = EventTagSerializer(event_tags, many=True)
         return Response(serializer.data)
 
 
 class EventTagDetailView(APIView):
-    def get(self, request, pk):
+    @staticmethod
+    def get(request, pk):
         try:
             event_tag = EventTag.objects.get(pk=pk)
         except EventTag.DoesNotExist:
@@ -74,7 +81,8 @@ class EventTagDetailView(APIView):
 
 
 class EventListView(APIView):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         tags_ids = request.GET.get('tags', None)
         distinct_ids = request.GET.get('distincts', None)
         _filter = {}
@@ -88,7 +96,8 @@ class EventListView(APIView):
 
 
 class EventDetailView(APIView):
-    def get(self, request, pk):
+    @staticmethod
+    def get(request, pk):
         try:
             event = Event.objects.get(pk=pk)
         except Event.DoesNotExist:
@@ -98,20 +107,32 @@ class EventDetailView(APIView):
 
 
 class EventPhotoListView(APIView):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         event_photos = EventPhoto.objects.all()
         serializer = EventPhotoSerializer(event_photos, many=True)
         return Response(serializer.data)
 
 
 class EventPhotoDetailView(APIView):
-    def get(self, request, pk):
+    @staticmethod
+    def get(request, pk):
         try:
             event_photo = EventPhoto.objects.get(pk=pk)
         except EventPhoto.DoesNotExist:
             return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
         serializer = EventPhotoSerializer(event_photo)
         return Response(serializer.data)
+
+
+class EventCreateView(APIView):
+    @staticmethod
+    def post(request):
+        serializer = EventCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class JoinEventAPIView(APIView):

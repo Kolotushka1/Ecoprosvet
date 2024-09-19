@@ -41,14 +41,22 @@ class EventSerializer(serializers.ModelSerializer):
 
 class EventSerializerShort(serializers.ModelSerializer):
     tags = serializers.SerializerMethodField()
+    district = DistrictSerializer()
+    organization = OrganizationSerializer()
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'about', 'date', 'image', 'tags', 'address', 'point_x', 'point_y']
+        fields = ['id', 'title', 'about', 'date', 'image', 'tags', 'address', 'point_x', 'point_y', 'organization',
+                  'district']
 
     @staticmethod
     def get_tags(obj: Event):
         return [event_tag.tag.name for event_tag in obj.event_tags.all()]
+
+
+class EventCreateSerializer(EventSerializerShort):
+    district = serializers.PrimaryKeyRelatedField(queryset=District.objects.all())
+    organization = serializers.PrimaryKeyRelatedField(queryset=Organization.objects.all())
 
 
 class EventPhotoSerializer(serializers.ModelSerializer):

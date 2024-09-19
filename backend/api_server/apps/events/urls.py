@@ -8,7 +8,7 @@ from .api import (
     EventPhotoListView, EventPhotoDetailView,
     FeedbackListView, FeedbackDetailView,
     SuggestionsListView, SuggestionsDetailView, JoinEventAPIView,
-    export_events_excel, export_users_excel, export_organizations_excel, OrganizationListView
+    export_events_excel, export_users_excel, export_organizations_excel, OrganizationListView, EventCreateView
 )
 
 urlpatterns = [
@@ -24,8 +24,7 @@ urlpatterns = [
     path('api/events/', EventListView.as_view(), name='event-list'),
     path('api/events/<int:pk>/', EventDetailView.as_view(), name='event-detail'),
     path('api/events/<int:pk>/join/', JoinEventAPIView.as_view(), name='suggestions-list'),
-
-    path('api/event-photos/', EventPhotoListView.as_view(), name='event-photo-list'),
+    path('api/events/create/', EventCreateView.as_view()),
 
     path('api/feedbacks/', FeedbackListView.as_view(), name='feedback-list'),
 

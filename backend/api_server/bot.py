@@ -9,11 +9,13 @@ django.setup()
 
 
 async def main():
-    from bot_src.handlers import r
+    from bot_src.routers.public import r as public_router
+    from bot_src.routers.account import r as account_router
     load_dotenv()
     bot = Bot(token=os.getenv('BOT_TOKEN'))
     dp = Dispatcher()
-    dp.include_router(r)
+    dp.include_router(account_router)
+    dp.include_router(public_router)
     await dp.start_polling(bot)
 
 

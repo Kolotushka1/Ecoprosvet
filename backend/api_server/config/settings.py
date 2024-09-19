@@ -174,6 +174,10 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000',
     'http://localhost:3000',
     'http://192.168.1.168:8000',
+    'http://192.168.0.109:3000',
+    'http://192.168.0.109:8000',
+    'http://192.168.0.105:3000',
+    'http://192.168.0.105:8000',
 ]
 
 MEDIA_URL = '/media/'
