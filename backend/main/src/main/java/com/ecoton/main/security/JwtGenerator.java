@@ -51,9 +51,11 @@ public class JwtGenerator {
         return claims.getSubject();
     }
 
-    public String getIdFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
-        return claims.getSubject();
+    public Claims getIdFromJWT(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public boolean validateToken(String token) {

@@ -74,9 +74,9 @@ public class OAuth2Controller {
         return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
 
-    @PostMapping("/oauth2/vk")
-    public ResponseEntity<?> vkLogin(@RequestBody OAuth2TokenRequest loginRequest) {
-        
-    }
+//    @PostMapping("/oauth2/vk")
+//    public ResponseEntity<?> vkLogin(@RequestBody OAuth2TokenRequest loginRequest) {
+//
+//    }
 
 }

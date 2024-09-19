@@ -7,6 +7,7 @@ import com.ecoton.main.security.JwtGenerator;
 import com.ecoton.main.security.JwtShortener;
 import com.ecoton.main.service.AppUserService;
 import com.ecoton.main.service.OrganizationService;
+import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,10 @@ public class AuthController {
             return new ResponseEntity<>("Почта занята!", HttpStatus.BAD_REQUEST);
         }
 
+        if (appUserService.existsByPhone(registerDto.getPhone()) && registerDto.getPhone() != null) {
+            return new ResponseEntity<>("Телефон занят!", HttpStatus.BAD_REQUEST);
+        }
+
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -58,10 +63,9 @@ public class AuthController {
         AppUser appUser = appUserService.createAppUser(registerDto, password);
 
         if (registerDto.getTokenRegister() != null) {
-            System.out.println("OK");
             String token = jwtShortener.restoreToken(registerDto.getTokenRegister());
-            Long organizationId = Long.valueOf(jwtGenerator.getIdFromJWT(token));
-            Organization organization = organizationService.getOrganizationById(organizationId);
+            Claims claims = jwtGenerator.getIdFromJWT(token);
+            Organization organization = organizationService.getOrganizationById(Long.valueOf(claims.get("organizationId", String.class)));
             organizationService.addUserToOrganization(appUser, organization);
             return new ResponseEntity<>("Пользователь успешно зарегистрирован и добавлен в организацию!", HttpStatus.OK);
         }
