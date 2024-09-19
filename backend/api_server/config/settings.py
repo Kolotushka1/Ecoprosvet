@@ -112,7 +112,7 @@ DATABASES = {
         'NAME': 'ecoprosvet',
         'USER': 'ecoprosvet',
         'PASSWORD': 'ecoprosvet180924',
-        'HOST': '192.168.1.147',  # Or an IP Address that your DB is hosted on
+        'HOST': '192.168.0.109',  # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }
