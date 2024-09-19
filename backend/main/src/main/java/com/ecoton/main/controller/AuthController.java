@@ -65,7 +65,8 @@ public class AuthController {
         if (registerDto.getTokenRegister() != null) {
             String token = jwtShortener.restoreToken(registerDto.getTokenRegister());
             Claims claims = jwtGenerator.getIdFromJWT(token);
-            Organization organization = organizationService.getOrganizationById(Long.valueOf(claims.get("organizationId", String.class)));
+            Long organizationId = Long.valueOf(claims.get("organizationId", Integer.class));
+            Organization organization = organizationService.getOrganizationById(organizationId);
             organizationService.addUserToOrganization(appUser, organization);
             return new ResponseEntity<>("Пользователь успешно зарегистрирован и добавлен в организацию!", HttpStatus.OK);
         }
