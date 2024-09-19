@@ -5,7 +5,7 @@ services:
     volumes:
       - ./api_server:/app  # Правильное указание volume для синхронизации кода
     ports:
-      - "443:8000"
+      - "80:8000"
     networks:
       - django_network
 networks:
