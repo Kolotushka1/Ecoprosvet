@@ -3,4 +3,9 @@
 {% block messages %}
     {{block.super}}
     {% include 'admin/components/organisations/new_event.html' %}
+    <ul>
+    <li><a href="/export/users">Пользователи экспорт</a></li>
+    <li><a href="/export/organizations">Организации экспорт</a></li>
+    <li><a href="/export/events">События экспорт</a></li>
+    </ul>
 {% endblock %}

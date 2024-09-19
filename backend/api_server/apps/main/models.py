@@ -18,12 +18,12 @@ class District(models.Model):
 
 class User(models.Model):
     id = models.BigAutoField(primary_key=True)
-    active = models.TextField()  # This field type is a guess.
+    active = models.BooleanField()
     birth_date = models.DateTimeField(blank=True, null=True)
     email = models.CharField(unique=True, max_length=255, blank=True, null=True)
-    email_confirm = models.TextField(blank=True, null=True)  # This field type is a guess.
+    email_confirm = models.BooleanField()
     fio = models.CharField(max_length=255, blank=True, null=True)
-    gender = models.TextField(blank=True, null=True)  # This field type is a guess.
+    gender = models.BooleanField()
     password = models.CharField(max_length=255, blank=True, null=True)
     phone_number = models.CharField(unique=True, max_length=255, blank=True, null=True)
     telegram = models.CharField(unique=True, max_length=255, blank=True, null=True)
@@ -33,6 +33,16 @@ class User(models.Model):
     class Meta:
         managed = False
         db_table = 'user'
+
+    def get_gender_display(self):
+
+        return {
+            1: "М",
+            0: "Ж"
+        }[self.gender]
+
+    def __str__(self):
+        return self.email + ' ' + self.fio
 
 
 class DjangoUser(AbstractUser):
@@ -52,15 +62,18 @@ class DjangoUser(AbstractUser):
 
 class Organization(models.Model):
     id = models.BigAutoField(primary_key=True)
-    address_registration = models.CharField(max_length=255, blank=True, null=True)
-    inn = models.CharField(max_length=255, blank=True, null=True)
-    is_active = models.TextField(blank=True, null=True)  # This field type is a guess.
-    organization_name = models.CharField(max_length=255, blank=True, null=True)
-    user_admin_id = models.BigIntegerField(blank=True, null=True)
-    address = models.CharField(max_length=255, blank=True, null=True)
-    is_eco_centre = models.TextField(blank=True, null=True)  # This field type is a guess.
-    pointx = models.CharField(max_length=255, blank=True, null=True)
-    pointy = models.CharField(max_length=255, blank=True, null=True)
+    address_registration = models.CharField(max_length=255, verbose_name='Адрес регистрации')
+    inn = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=False)
+    organization_name = models.CharField(max_length=255)
+    user_admin = models.ForeignKey(User, on_delete=models.DO_NOTHING, db_column='user_admin_id')
+    address = models.CharField(max_length=255)
+    is_eco_centre = models.BooleanField(default=False)
+    pointx = models.CharField(max_length=255)
+    pointy = models.CharField(max_length=255)
+    data = models.TextField()
+    org_type = models.CharField(max_length=3, blank=True, null=True)
+
 
     class Meta:
         managed = False
@@ -69,7 +82,7 @@ class Organization(models.Model):
         verbose_name_plural = "Организации"
 
     def __str__(self):
-        return self.name
+        return self.organization_name
 
 
 class OrganizationUsers(models.Model):

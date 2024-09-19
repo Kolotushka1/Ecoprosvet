@@ -2,8 +2,11 @@ from django.contrib.admin import AdminSite
 from django.shortcuts import render
 from django.urls import path
 from django.contrib.admin.views.decorators import staff_member_required
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
+
+from apps.events.models import Event
 
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -11,7 +14,7 @@ class MailSender(View):
     @staticmethod
     def get(request, *args, **kwargs):
         context = {
-            'message': 'Welcome to the Custom Admin Page!',
+            'events': Event.objects.filter(date__gt=timezone.now()).order_by('-date'),
         }
         return render(request, 'admin/custom_pages/mail_send.html', context)
 

@@ -1,3 +1,5 @@
+import logging
+
 import pandas as pd
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
@@ -192,12 +194,13 @@ def export_users_excel(request):
     for user in filtered_users:
         data.append({
             'ID': user.id,
-            'Имя': user.username,
-            'Пол': user.get_gender_display(),
+            'Имя': user.fio,
+            'Пол': user.get_gender_display() if user.gender is not None else 'Не указан',
             'Email': user.email,
             'Район': user.district.name if user.district else '',
             'Телефон': user.phone_number,
-            'Подтверждение Email': user.email_confirm
+            'Дата рождения': user.birth_date,
+            'telegram': user.telegram,
         })
 
     df = pd.DataFrame(data)
@@ -235,11 +238,14 @@ def export_organizations_excel(request):
 
     data = []
     for org in filtered_organizations:
+        org: Organization
         data.append({
-            'ID': org.id,
-            'Название': org.name,
-            'Тип': org.get_org_type_display(),
-            'Данные': org.data
+           'ID': org.id,
+            'Название': org.organization_name,
+            'Тип': org.org_type,
+            'Юридический адрес': org.address_registration,
+            'ИНН': org.inn,
+            'is_eco_centre': "Да" if int(str(org.is_eco_centre)[5]) else "Нет",
         })
 
     df = pd.DataFrame(data)
@@ -280,9 +286,12 @@ def export_events_excel(request):
         data.append({
             'ID': event.id,
             'Название': event.title,
-            'Дата начала': event.start_date,
-            'Дата окончания': event.end_date,
-            'Организатор': event.organizer.name if event.organizer else '',
+            'Короткое описание': event.description,
+            'Район': event.district.name if event.district else '',
+            'Описание': event.description,
+            'Дата проведения': event.date.strftime('%Y-%m-%d'),
+            'Адрес': event.address,
+            'Организатор': event.organization.organization_name if event.organization else '',
         })
 
     df = pd.DataFrame(data)
