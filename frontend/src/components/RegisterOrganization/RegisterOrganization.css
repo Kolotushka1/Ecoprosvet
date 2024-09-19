@@ -1,6 +1,6 @@
 .auth-container {
 	position: relative;
-	min-inline-size: 430px;
+	min-inline-size: 330px;
 	inline-size: 50%;
 	background: #fff;
 	border-radius: 10px;
@@ -39,10 +39,6 @@
 .auth-container.active .auth-form--signup {
 	opacity: 1;
 	transition: opacity 0.2s ease;
-}
-
-.auth-container.active .auth-forms {
-	height: 1200px;
 }
 
 .auth-form__title {

@@ -8,6 +8,7 @@ import { Map } from '../../pages/Map.js'
 import { Footer } from '../Footer/Footer.js'
 import { Header } from '../Header/Header.js'
 import { AuthOrgForm } from '../RegisterOrganization/RegisterOrganization.js'
+import { User } from '../User/User.js'
 import './App.css'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
 					<Route path='/auth' element={<Authorization />} />
 					<Route path='/createvt' element={<CreateEvent />} />
 					<Route path='/authorg' element={<AuthOrgForm />} />
+					<Route path='/user' element={<User />} />
 				</Routes>
 				<Footer />
 			</Router>

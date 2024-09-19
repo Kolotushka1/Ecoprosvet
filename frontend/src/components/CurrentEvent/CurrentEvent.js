@@ -10,8 +10,7 @@ export const CurrentEvent = () => {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(null)
 	const [currentImageIndex, setCurrentImageIndex] = useState(0)
-	const [isModalOpen, setModalOpen] = useState(false) // Для модального окна
-
+	const [modalActive, setModalActive] = useState(true)
 	useEffect(() => {
 		const loadEvent = async () => {
 			try {
@@ -39,14 +38,6 @@ export const CurrentEvent = () => {
 		}, 3000)
 		return () => clearInterval(interval)
 	}, [event])
-
-	const openModal = () => {
-		setModalOpen(true)
-	}
-
-	const closeModal = () => {
-		setModalOpen(false)
-	}
 
 	const nextSlide = () => {
 		setCurrentImageIndex(prevIndex => (prevIndex === event.photos.length - 1 ? 0 : prevIndex + 1))
@@ -97,24 +88,10 @@ export const CurrentEvent = () => {
 					<p className='event__date'>Дата проведения:</p>
 					<p className='event__date-text'>{formatedDate}</p>
 					<p className='event__description'>{event.description}</p>
-					<button className='event__button' type='button' onClick={openModal}>
+					<button className='event__button' type='button'>
 						Записаться
 					</button>
-
-					{isModalOpen && (
-						<div className='modal'>
-							<div className='modal__content'>
-								<h2>Подтверждение записи</h2>
-								<p>Действительно ли вы хотите записаться на мероприятие?</p>
-								<button className='modal__confirm' onClick={closeModal}>
-									Да
-								</button>
-								<button className='modal__cancel' onClick={closeModal}>
-									Отмена
-								</button>
-							</div>
-						</div>
-					)}
+					{/* <Modal active={modalActive}/> */}
 				</>
 			)}
 		</article>

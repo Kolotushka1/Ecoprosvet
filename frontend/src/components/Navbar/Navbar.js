@@ -15,14 +15,10 @@ export const Navbar = () => {
 			</Link>
 			<ul className={`header__nav-list ${isOpen ? 'header__nav-list--open' : ''}`}>
 				<li className='header__nav-item'>
-					<Link to='/about' className='header__nav-link'>
-						О нас
-					</Link>
+					<Link className='header__nav-link'>О нас</Link>
 				</li>
 				<li className='header__nav-item'>
-					<Link to='/about' className='header__nav-link'>
-						Галерея
-					</Link>
+					<Link className='header__nav-link'>Галерея</Link>
 				</li>
 				<li className='header__nav-item'>
 					<Link to='/events' className='header__nav-link'>

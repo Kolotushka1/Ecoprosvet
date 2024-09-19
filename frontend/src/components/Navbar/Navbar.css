@@ -61,15 +61,24 @@
 		position: absolute;
 		top: 100%;
 		left: 0;
-		width: 100%;
+		inline-size: 100%;
 		flex-direction: column;
-		background-color: white;
-		max-height: 0;
+		backdrop-filter: blur(10px); /* Добавляем размытие */
+		background-color: rgba(255, 255, 255, 0.5);
+		max-block-size: 0;
 		overflow: hidden;
 		opacity: 0;
 		transition: max-height 0.3s ease, opacity 0.3s ease;
 		z-index: 1000;
+		justify-content: end;
+		row-gap: 20px;
+		padding: 10px;
 	}
+
+	.header__nav-list.active {
+		max-block-size: 300px; /* Увеличиваем высоту при открытии */
+		opacity: 1;
+	}	
 
 	.header__nav-list--open {
 		max-block-size: 500px;
@@ -77,7 +86,11 @@
 	}
 
 	.header__nav-item {
-		margin: 10px 0;
+		align-self: end;
+	}
+
+	.header__nav-link {
+		font-size: 25px;
 	}
 
 	.header__nav-button {

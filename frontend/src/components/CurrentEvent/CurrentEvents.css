@@ -13,10 +13,6 @@
 	flex-direction: row;
 }
 
-.card__tags-link {
-	font-size: 100px;
-}
-
 .slider {
 	position: relative;
 	max-inline-size: 800px;
@@ -75,4 +71,21 @@
 .event__date-text {
 	font-size: 20px;
 	margin: 0 0 20px 0;
+}
+
+.event__description {
+	max-inline-size: 50%;
+	margin: 0 0 30px 0;
+}
+
+.event__button {
+	font-size: 20px;
+	background-color: #d5d3d3;
+	padding: 10px 15px;
+	border-radius: 15px;
+	inline-size: 50%;
+}
+
+.event__button:hover {
+	background-color: #8e9e81;
 }

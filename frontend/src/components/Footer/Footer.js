@@ -32,8 +32,8 @@ export const Footer = () => {
 						</Link>
 					</li>
 					<li className='footer__menu-list-item'>
-						<Link className='footer__menu-link' to='#'>
-							о нас
+						<Link className='footer__menu-link' to='/authorg'>
+							Регистрация организаций
 						</Link>
 					</li>
 				</ul>
