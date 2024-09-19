@@ -1,27 +1,39 @@
 import React, { useEffect, useState } from 'react'
+import { Card } from '../../../../components/Card/Card.js'
 import { fetchEvents } from '../../../../services/Api.js'
-import { Card } from '../../../Card/Card.js' // Импорт компонента карточки
 import './Cards.css'
-export const Cards = () => {
-	const [events, setEvents] = useState([]) // Хук для хранения данных событий
-	const [loading, setLoading] = useState(true) // Хук для состояния загрузки
-	const [error, setError] = useState(null) // Хук для состояния ошибок
+
+export const Cards = ({ selectedTags = [] }) => {
+	// Убедимся, что selectedTags всегда массив
+	const [events, setEvents] = useState([]) // Состояние для всех событий
+	const [filteredEvents, setFilteredEvents] = useState([]) // Состояние для отфильтрованных событий
+	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState(null)
 
 	useEffect(() => {
 		const loadEvents = async () => {
 			try {
-				const eventsData = await fetchEvents() // Получаем данные с API
-				setEvents(eventsData) // Устанавливаем данные в состояние
+				const eventsData = await fetchEvents() // Получаем данные событий
+				setEvents(eventsData) // Сохраняем все события
+				setFilteredEvents(eventsData) // По умолчанию показываем все события
 			} catch (error) {
-				setError(error.message) // Устанавливаем ошибку
-				console.log(error.message)
+				setError(error.message)
 			} finally {
-				setLoading(false) // Останавливаем состояние загрузки
+				setLoading(false)
 			}
 		}
-
 		loadEvents()
 	}, [])
+
+	useEffect(() => {
+		console.log('Selected Tags:', selectedTags) // Отладка выбранных тегов
+		if (selectedTags.length > 0) {
+			const filtered = events.filter(event => event.tags && event.tags.some(tag => selectedTags.includes(tag)))
+			setFilteredEvents(filtered)
+		} else {
+			setFilteredEvents(events)
+		}
+	}, [selectedTags, events])
 
 	if (loading) {
 		return <div>Загрузка...</div>
@@ -34,18 +46,8 @@ export const Cards = () => {
 	return (
 		<section className='section cards-section'>
 			<ul className='cards__list'>
-				{events.slice(0, 4).map(event => (
-					<Card
-						key={event.id} // Используем id события как ключ
-						id={event.id}
-						tags={event.tags} // Передаём теги
-						title={event.title} // Название события
-						about={event.about}
-						image={event.image} // Изображение события
-						date={event.date}
-						description={event.description} // Описание события
-						link={`/events/${event.id}`} // Ссылка на страницу события
-					/>
+				{filteredEvents.map(event => (
+					<Card key={event.id} id={event.id} tags={event.tags} title={event.title} about={event.about} image={event.image} date={event.date} description={event.description} link={`/events/${event.id}`} />
 				))}
 			</ul>
 		</section>

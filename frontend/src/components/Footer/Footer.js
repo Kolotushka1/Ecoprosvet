@@ -1,56 +1,58 @@
+import { Link } from 'react-router-dom'
 import './Footer.css'
 
 export const Footer = () => {
 	return (
-		<footer class='footer'>
-			<address class='address footer__address'>
-				<a class='address-link' href='tel:+9999555555'>
+		<footer className='footer'>
+			<address className='address footer__address'>
+				<Link className='address-link' to='tel:+9999555555'>
 					+9 999 555 5555
-				</a>
+				</Link>{' '}
+				{/* Закрыли тег */}
 				<br />
-				<a class='address-link' href='mailto:info@sobaka.ge'>
+				<Link className='address-link' to='mailto:info@sobaka.ge'>
 					info@sobaka.ge
-				</a>
-				<p class='address__city'>
-					наб. Принсенграхт 263-
+				</Link>
+				<p className='address__city'>
+					Новый Арбат ул.,
 					<br />
-					265, Москва
+					36, Москва
 				</p>
 			</address>
-			<nav class='footer__menu'>
-				<ul class='footer__menu-list'>
-					<li class='footer__menu-list-item'>
-						<a class='footer__menu-link footer__menu-link_active' href='#'>
+			<nav className='footer__menu'>
+				<ul className='footer__menu-list'>
+					<li className='footer__menu-list-item'>
+						<Link className='footer__menu-link footer__menu-link_active' to='#'>
 							главная
-						</a>
+						</Link>
 					</li>
-					<li class='footer__menu-list-item'>
-						<a class='footer__menu-link' href='#'>
+					<li className='footer__menu-list-item'>
+						<Link className='footer__menu-link' to='#'>
 							посмотреть мероприятия
-						</a>
+						</Link>
 					</li>
-					<li class='footer__menu-list-item'>
-						<a class='footer__menu-link' href='#'>
-							об аукционе
-						</a>
+					<li className='footer__menu-list-item'>
+						<Link className='footer__menu-link' to='#'>
+							о нас
+						</Link>
 					</li>
 				</ul>
 			</nav>
-			<ul class='footer__social-list'>
-				<li class='footer__social-list-item'>
-					<a class='footer__social-link' href='#'>
-						<img class='footer__social-icon' src='./images/yt.svg' alt='Иконка Ютуб' />
-					</a>
+			<ul className='footer__social-list'>
+				<li className='footer__social-list-item'>
+					<Link className='footer__social-link' to='#'>
+						<img className='footer__social-icon' src='./telegram.svg' alt='Иконка Ютуб' />
+					</Link>
 				</li>
-				<li class='footer__social-list-item'>
-					<a class='footer__social-link' href='#'>
-						<img class='footer__social-icon' src='./images/vk.svg' alt='Иконка Вконтакте' />
-					</a>
+				<li className='footer__social-list-item'>
+					<Link className='footer__social-link' to='#'>
+						<img className='footer__social-icon' src='./telegram.svg' alt='Иконка Вконтакте' />
+					</Link>
 				</li>
-				<li class='footer__social-list-item'>
-					<a class='footer__social-link' href='#'>
-						<img class='footer__social-icon' src='./images/pinterest.svg' alt='Иконка Пинтерест' />
-					</a>
+				<li className='footer__social-list-item'>
+					<Link className='footer__social-link' to='#'>
+						<img className='footer__social-icon' src='./telegram.svg' alt='Иконка Пинтерест' />
+					</Link>
 				</li>
 			</ul>
 		</footer>

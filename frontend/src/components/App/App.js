@@ -1,5 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-import { Auth } from '../../pages/Auth.js'
+import { Authorization } from '../../pages/Authorization.js'
+import { CreateEvent } from '../../pages/CreateEvent.js'
 import { Event } from '../../pages/Event.js'
 import { Events } from '../../pages/Events.js'
 import { Home } from '../../pages/Home.js'
@@ -15,10 +16,11 @@ function App() {
 				<Header />
 				<Routes>
 					<Route index path='/' element={<Home />} />
-					<Route index path='/events' element={<Events />} />
-					<Route index path='/map' element={<Map />} />
-					<Route index path='/events/:id' element={<Event />} />
-					<Route index path='/auth' element={<Auth />} />
+					<Route path='/events' element={<Events />} />
+					<Route path='/map' element={<Map />} />
+					<Route path='/events/:id' element={<Event />} />
+					<Route path='/authorization' element={<Authorization />} />
+					<Route path='/createvt' element={<CreateEvent />} />
 				</Routes>
 				<Footer />
 			</Router>
@@ -27,8 +29,3 @@ function App() {
 }
 
 export default App
-
-/* <YMaps query={{ apikey: '231cf396-7d94-404f-aa8d-2e9204ec5cef' }}>
-				<CustomMap />
-			</YMaps>
-			<MapGenerator Objects={MapObjects} /> */

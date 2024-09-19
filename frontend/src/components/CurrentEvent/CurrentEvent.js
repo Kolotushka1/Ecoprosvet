@@ -1,58 +1,3 @@
-// import React, { useEffect, useState } from 'react'
-// import { useParams } from 'react-router-dom'
-// import { fetchEvent } from '../../services/Api'
-// import './CurrentEvents.css'
-
-// export const CurrentEvent = () => {
-// 	const { id } = useParams() // Получаем id из URL
-// 	const [event, setEvent] = useState(null)
-// 	const [loading, setLoading] = useState(true)
-// 	const [error, setError] = useState(null)
-
-// 	useEffect(() => {
-// 		const loadEvent = async () => {
-// 			try {
-// 				console.log('ID события:', id)
-// 				const eventData = await fetchEvent(id) // Получаем данные с API
-// 				if (eventData) {
-// 					setEvent(eventData)
-// 				} else {
-// 					setError('Событие не найдено')
-// 				}
-// 			} catch (err) {
-// 				setError('Ошибка при загрузке события')
-// 			} finally {
-// 				setLoading(false)
-// 			}
-// 		}
-
-// 		loadEvent()
-// 	}, [id])
-
-// 	if (loading) {
-// 		return <div>Загрузка...</div>
-// 	}
-
-// 	if (error) {
-// 		return <div>{error}</div>
-// 	}
-
-// 	return (
-// 		<article className='event'>
-// 			{event && (
-// 				<>
-// 					<h1 className='event__title'>{event.title}</h1>
-// 					<img className='event__image' src={event.photos[1]} alt={event.title} />
-// 					<p className='event__date'>
-// 						Дата проведения: <strong>{event.date}</strong>
-// 					</p>
-// 					<p className='event__description'>{event.description}</p>
-// 				</>
-// 			)}
-// 		</article>
-// 	)
-// }
-
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { fetchEvent } from '../../services/Api'
@@ -68,7 +13,6 @@ export const CurrentEvent = () => {
 	useEffect(() => {
 		const loadEvent = async () => {
 			try {
-				console.log('ID события:', id)
 				const eventData = await fetchEvent(id)
 				if (eventData) {
 					setEvent(eventData)
@@ -102,7 +46,6 @@ export const CurrentEvent = () => {
 		return <div>{error}</div>
 	}
 
-	// Функции для ручного переключения слайдов
 	const nextSlide = () => {
 		setCurrentImageIndex(prevIndex => (prevIndex === event.photos.length - 1 ? 0 : prevIndex + 1))
 	}

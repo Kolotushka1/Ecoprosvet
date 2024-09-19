@@ -35,3 +35,7 @@ export const fetchEvent = async id => {
 export const fetchOrganizations = async () => {
 	return await fetchData('organizations')
 }
+
+export const fetchTags = async () => {
+	return await fetchData('tags')
+}

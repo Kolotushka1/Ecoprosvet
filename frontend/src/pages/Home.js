@@ -6,7 +6,7 @@ export const Home = () => {
 		<>
 			<Main>
 				<Hero />
-				<Cards />
+				<Cards limit={3} />
 			</Main>
 		</>
 	)

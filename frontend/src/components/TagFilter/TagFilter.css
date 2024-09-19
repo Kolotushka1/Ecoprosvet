@@ -1,0 +1,35 @@
+.events-title {
+	font-size: 30px;
+	margin: 0 0 50px 0;
+	text-transform: uppercase;
+}
+
+.tag-filter__text {
+	font-size: 20px;
+}
+
+.tag-filter__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px 10px;
+	margin: 0 0 20px 0;
+}
+
+.tag-filter__item {
+	padding: 8px 16px;
+	background-color: #e0e0e0; /* Цвет кнопки по умолчанию */
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	font-size: 14px;
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.tag-filter__item:hover {
+	background-color: #d0d0d0; /* Цвет при наведении */
+}
+
+.tag-filter__item.active {
+	background-color: #e2b689; /* Цвет активного фильтра */
+	color: white; /* Цвет текста активного фильтра */
+}

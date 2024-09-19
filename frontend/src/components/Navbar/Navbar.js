@@ -13,15 +13,15 @@ export const Navbar = () => {
 			<Link className='header__logo' to='/'>
 				<img className='header__logo-image' src='/flower.svg' alt='Логотип сайта в виде цветка' />
 			</Link>
-			<ul className='header__nav-list'>
+			<ul className={`header__nav-list ${isOpen ? 'header__nav-list--open' : ''}`}>
 				<li className='header__nav-item'>
 					<Link to='/about' className='header__nav-link'>
-						О портале
+						О нас
 					</Link>
 				</li>
 				<li className='header__nav-item'>
-					<Link to='/map' className='header__nav-link'>
-						Карта
+					<Link to='/about' className='header__nav-link'>
+						Галерея
 					</Link>
 				</li>
 				<li className='header__nav-item'>
@@ -30,8 +30,13 @@ export const Navbar = () => {
 					</Link>
 				</li>
 				<li className='header__nav-item'>
-					<Link to='/about' className='header__nav-link'>
-						О нас
+					<Link to='/map' className='header__nav-link'>
+						Карта
+					</Link>
+				</li>
+				<li className='header__nav-item header__nav-item--auth'>
+					<Link to='/auth' className='header__nav-link'>
+						Авторизация
 					</Link>
 				</li>
 			</ul>

@@ -1,9 +1,9 @@
 .card {
 	border-radius: 60px;
 	padding: 30px;
-	background-color: #f8f8f8;
+	background-color: #eaeeed;
 	inline-size: 100%;
-	transition: transform 0.3s ease-in-out;
+	transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -13,6 +13,8 @@
 
 .card:hover {
 	transform: scale(1.005);
+	opacity: 0.9; /* Можно настроить степень прозрачности */
+	box-shadow: 0 8px 16px rgba(226, 182, 137, 0.6); /* Бежевая тень при наведении */
 }
 
 .card__tags-list {
@@ -28,11 +30,12 @@
 
 .card__tags-link {
 	padding: 5px 13px;
-	background-color: #79e497; /* Сделать кастомный цвет*/
+	background-color: #e2b689; /* Сделать кастомный цвет*/
 	text-decoration: none;
 	font-size: 15px;
 	font-weight: 600;
 	border-radius: 50px;
+	opacity: 0.8;
 }
 
 .card__title {
@@ -51,7 +54,8 @@
 .card__date-text {
 	display: inline-block;
 	padding: 5px 10px;
-	background-color: #a6c85c;
+	background-color: #526146a1;
+	color: #fff;
 	border-radius: 20px;
 	margin: 0 0 20px 0;
 }
@@ -65,7 +69,7 @@
 }
 
 .card__image {
-	object-fit: fill;
+	object-fit: cover;
 	object-position: center;
 	inline-size: 100%;
 	block-size: 100%;
@@ -80,7 +84,7 @@
 	display: block;
 	align-items: center;
 	text-align: center;
-	background-color: #79e497;
+	background-color: #c5c5c3;
 	inline-size: 100%;
 	padding: 12px 0;
 	border-radius: 20px;
@@ -91,7 +95,7 @@
 }
 
 .card__button:hover {
-	background-color: #a6c85c;
+	background-color: #8e9e81;
 }
 
 @media (max-width: 960px) {
