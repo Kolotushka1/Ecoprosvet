@@ -1,3 +1,5 @@
+import logging
+
 import pandas as pd
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
@@ -259,12 +261,12 @@ def export_organizations_excel(request):
     for org in filtered_organizations:
         org: Organization
         data.append({
-            'ID': org.id,
+           'ID': org.id,
             'Название': org.organization_name,
             'Тип': org.org_type,
             'Юридический адрес': org.address_registration,
             'ИНН': org.inn,
-            'is_eco_centre': org.is_eco_centre,
+            'is_eco_centre': "Да" if int(str(org.is_eco_centre)[5]) else "Нет",
         })
 
     df = pd.DataFrame(data)

@@ -1,17 +1,16 @@
 package com.ecoton.main.service;
 
 import com.ecoton.main.dto.AppOrganizationUsersDto;
-import com.ecoton.main.dto.AppUserOrganizationDto;
 import com.ecoton.main.dto.RegisterOrganizationDto;
 import com.ecoton.main.entity.AppUser;
 import com.ecoton.main.entity.Organization;
 import com.ecoton.main.entity.OrganizationUsers;
 import com.ecoton.main.repository.OrganizationRepository;
 import com.ecoton.main.repository.OrganizationUserRepository;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,6 +47,14 @@ public class OrganizationService {
         return organizationUsers.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Organization isOrganizationAdmin(Long userId) {
+        return organizationRepository.getOrganizationByUserAdminId(userId);
+    }
+
+    public Organization getOrganizationById(Long organizationId) {
+        return organizationRepository.getOrganizationById(organizationId);
     }
 
     public void addUserToOrganization(AppUser user, Organization organization) {

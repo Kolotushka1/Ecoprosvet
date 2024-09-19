@@ -6,6 +6,7 @@ import com.ecoton.main.entity.AppUser;
 import com.ecoton.main.dto.AppUserDto;
 import com.ecoton.main.entity.Organization;
 import com.ecoton.main.security.JwtGenerator;
+import com.ecoton.main.security.JwtShortener;
 import com.ecoton.main.service.AppUserService;
 import com.ecoton.main.service.OrganizationService;
 import com.ecoton.main.wrapper.UserOrganizationResponse;
@@ -22,12 +23,14 @@ public class AppUserController {
     private final JwtGenerator jwtGenerator;
     private final AppUserService appUserService;
     private final OrganizationService organizationService;
+    private final JwtShortener jwtShortener;
 
     @Autowired
-    public AppUserController(JwtGenerator jwtGenerator, AppUserService appUserService, OrganizationService organizationService) {
+    public AppUserController(JwtGenerator jwtGenerator, AppUserService appUserService, OrganizationService organizationService, JwtShortener jwtShortener) {
         this.jwtGenerator = jwtGenerator;
         this.appUserService = appUserService;
         this.organizationService = organizationService;
+        this.jwtShortener = jwtShortener;
     }
 
     @GetMapping("get/user/profile")
@@ -69,6 +72,25 @@ public class AppUserController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    @PostMapping("post/generate-link")
+    private ResponseEntity<String> createLinkCreateOrganizationUser(@RequestHeader("Authorization") String token) {
+        token = jwtGenerator.cutJwt(token);
+        if (!jwtGenerator.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String userEmail = jwtGenerator.getEmailFromJWT(token);
+        AppUser appUser = appUserService.getUserData(userEmail);
+        Long userId = appUser.getId();
+        Organization isOrganizationAdmin = organizationService.isOrganizationAdmin(userId);
+        if (isOrganizationAdmin != null) {
+            String tokenRegister = jwtGenerator.generateRegistrationToken(isOrganizationAdmin.getUserAdminId());
+            tokenRegister = jwtShortener.shortenToken(tokenRegister);
+            String link = "192.168.0.109:8090/api/auth/register/link?tokenregister=" + tokenRegister;
+            return new ResponseEntity<>(link, HttpStatus.OK);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     public AppUserDto convertToDto(AppUser appUser) {

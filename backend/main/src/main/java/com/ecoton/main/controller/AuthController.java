@@ -2,9 +2,12 @@ package com.ecoton.main.controller;
 
 import com.ecoton.main.dto.*;
 import com.ecoton.main.entity.AppUser;
+import com.ecoton.main.entity.Organization;
 import com.ecoton.main.security.JwtGenerator;
+import com.ecoton.main.security.JwtShortener;
 import com.ecoton.main.service.AppUserService;
 import com.ecoton.main.service.OrganizationService;
+import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,14 +28,16 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final AppUserService appUserService;
     private final OrganizationService organizationService;
+    private final JwtShortener jwtShortener;
 
     @Autowired
-    public AuthController(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtGenerator jwtGenerator, AppUserService appUserService, OrganizationService organizationService) {
+    public AuthController(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtGenerator jwtGenerator, AppUserService appUserService, OrganizationService organizationService, JwtShortener jwtShortener) {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtGenerator = jwtGenerator;
         this.appUserService = appUserService;
         this.organizationService = organizationService;
+        this.jwtShortener = jwtShortener;
     }
 
     @PostMapping("register")
@@ -40,6 +45,10 @@ public class AuthController {
 
         if (appUserService.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Почта занята!", HttpStatus.BAD_REQUEST);
+        }
+
+        if (appUserService.existsByPhone(registerDto.getPhone()) && registerDto.getPhone() != null) {
+            return new ResponseEntity<>("Телефон занят!", HttpStatus.BAD_REQUEST);
         }
 
         if (result.hasErrors()) {
@@ -51,7 +60,16 @@ public class AuthController {
         }
 
         String password = passwordEncoder.encode(registerDto.getPassword());
-        appUserService.createAppUser(registerDto, password);
+        AppUser appUser = appUserService.createAppUser(registerDto, password);
+
+        if (registerDto.getTokenRegister() != null) {
+            String token = jwtShortener.restoreToken(registerDto.getTokenRegister());
+            Claims claims = jwtGenerator.getIdFromJWT(token);
+            Long organizationId = Long.valueOf(claims.get("organizationId", Integer.class));
+            Organization organization = organizationService.getOrganizationById(organizationId);
+            organizationService.addUserToOrganization(appUser, organization);
+            return new ResponseEntity<>("Пользователь успешно зарегистрирован и добавлен в организацию!", HttpStatus.OK);
+        }
 
         return new ResponseEntity<>("Пользователь успешно зарегистрирован!", HttpStatus.OK);
     }
@@ -97,12 +115,6 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return new ResponseEntity<>(true, HttpStatus.OK);
-    }
-
-    @PostMapping("/oauth2/login")
-    public ResponseEntity<AuthResponseDto> oauth2Login(Authentication authentication) {
-        String token = jwtGenerator.generateToken(authentication.getName());
-        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
 
 }
