@@ -2,7 +2,16 @@
 
 {% block content %}
     <h1>Рассылка по мероприятиям</h1>
+    <table>
+        <tr>
+            <th>Выделить все<br><input class="big_center_checkbox" type="checkbox" id="select-all"></th>
+            <th colspan="3">Игрок</th>
+            <th>Дата рождения</th>
+            <th>Игры</th>
+            <th>Баллы</th>
+        </tr>
+    </table>
     {% for event in events %}
-        
+        {{ event }}
     {% endfor %}
 {% endblock %}

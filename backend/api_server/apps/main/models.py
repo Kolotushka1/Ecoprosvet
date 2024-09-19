@@ -40,6 +40,9 @@ class User(models.Model):
             False: "Ж"
         }[self.gender]
 
+    def __str__(self):
+        return self.email + ' ' + self.fio
+
 
 class DjangoUser(AbstractUser):
     telegram = models.CharField(max_length=255, blank=True, null=True, verbose_name="Телеграм")
@@ -58,15 +61,18 @@ class DjangoUser(AbstractUser):
 
 class Organization(models.Model):
     id = models.BigAutoField(primary_key=True)
-    address_registration = models.CharField(max_length=255, blank=True, null=True)
-    inn = models.CharField(max_length=255, blank=True, null=True)
-    is_active = models.TextField(blank=True, null=True)  # This field type is a guess.
-    organization_name = models.CharField(max_length=255, blank=True, null=True)
-    user_admin_id = models.BigIntegerField(blank=True, null=True)
-    address = models.CharField(max_length=255, blank=True, null=True)
-    is_eco_centre = models.TextField(blank=True, null=True)  # This field type is a guess.
-    pointx = models.CharField(max_length=255, blank=True, null=True)
-    pointy = models.CharField(max_length=255, blank=True, null=True)
+    address_registration = models.CharField(max_length=255, verbose_name='Адрес регистрации')
+    inn = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=False)
+    organization_name = models.CharField(max_length=255)
+    user_admin = models.ForeignKey(User, on_delete=models.DO_NOTHING, db_column='user_admin_id')
+    address = models.CharField(max_length=255)
+    is_eco_centre = models.BooleanField(default=False)
+    pointx = models.CharField(max_length=255)
+    pointy = models.CharField(max_length=255)
+    data = models.TextField()
+    org_type = models.CharField(max_length=3, blank=True, null=True)
+
 
     class Meta:
         managed = False

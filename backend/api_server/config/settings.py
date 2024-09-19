@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-2^z5-ilduh#597g2nd0an26a=pl5k#7psepu2k$$c-xapugi8u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.168', 'localhost']
+ALLOWED_HOSTS = ['192.168.1.168', 'localhost', '127.0.0.1', '172.25.240.1', '192.168.0.108']
 
 # Application definition
 
@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'apps.main',
     'apps.events',
-    'apps.organisations',
 ]
 
 AUTH_USER_MODEL = 'main.DjangoUser'
@@ -112,7 +111,7 @@ DATABASES = {
         'NAME': 'ecoprosvet',
         'USER': 'ecoprosvet',
         'PASSWORD': 'ecoprosvet180924',
-        'HOST': '192.168.1.147',  # Or an IP Address that your DB is hosted on
+        'HOST': '192.168.0.109',  # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }

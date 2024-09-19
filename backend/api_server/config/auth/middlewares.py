@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.conf import settings
 from your_app.models import AppUser  # Импорт модели пользователя
 
+
 class TokenAuthMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response

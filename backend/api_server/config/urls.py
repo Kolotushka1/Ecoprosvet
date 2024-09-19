@@ -29,7 +29,6 @@ urlpatterns = [
     # path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('', include('apps.events.urls')),
     path('admin/', site_admin.urls),
-    path('organisations/', include('apps.organisations.urls')),
     path('temp/', include('apps.main.urls')),
 ]
 
