@@ -44,7 +44,7 @@ async def my_events(m: Message, session: Session):
         event = session.get(Event, event_id.event_id)
         if event.date > datetime.date.today():
             org = session.get(Organization, event.organization_id)
-            events.append(f"<b>{event.name}</b> ({event.date.strftime('%d-%m-%Y')}) - {org.name}")
+            events.append(f"<b>{event.title}</b> ({event.date.strftime('%d-%m-%Y')}) - {org.organization_name}")
 
     if events:
         await m.answer(f"Ближайшие мероприятия, в которых ты участвуешь:\n\n{'\n'.join(events)}")

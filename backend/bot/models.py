@@ -18,26 +18,26 @@ class User(Base):
 
 
 class Event(Base):
-    __tablename__ = 'event'
+    __tablename__ = 'events_event'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     address: Mapped[str]
     date: Mapped[datetime.date]
     description: Mapped[str] = mapped_column(Text)
-    name: Mapped[str]
+    title: Mapped[str]
     district_id: Mapped[int] = mapped_column(ForeignKey('district.id'))
     organization_id: Mapped[int] = mapped_column(ForeignKey('organization.id'))
 
 
 class UserEvent(Base):
-    __tablename__ = 'user_event'
+    __tablename__ = 'events_eventsub'
 
     user_id: Mapped[int]
     event_id: Mapped[int]
 
 
 class Organization(Base):
-    __tablename__ = 'organization'
+    __tablename__ = 'main_organization'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str]
+    organization_name: Mapped[str]

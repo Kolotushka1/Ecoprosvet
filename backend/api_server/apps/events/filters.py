@@ -1,39 +1,56 @@
+from datetime import date
+
 import django_filters
 
-from .models import Event
+from .models import Event, EventTag
 from ..main.models import User, District, Organization
 
 
 class UserFilter(django_filters.FilterSet):
-    min_age = django_filters.NumberFilter(field_name='age', lookup_expr='gte')
-    max_age = django_filters.NumberFilter(field_name='age', lookup_expr='lte')
-    gender = django_filters.ChoiceFilter(choices=[('M', 'Мужской'), ('F', 'Женский')])
+    min_age = django_filters.NumberFilter(method='filter_min_age')
+    max_age = django_filters.NumberFilter(method='filter_max_age')
+    gender = django_filters.CharFilter(field_name='gender', lookup_expr='icontains')
     district = django_filters.ModelChoiceFilter(queryset=District.objects.all())
-    email_confirm = django_filters.BooleanFilter()
 
     class Meta:
         model = User
-        fields = ['min_age', 'max_age', 'gender', 'district', 'email_confirm']
+        fields = ['min_age', 'max_age', 'gender', 'district']
+
+    def filter_min_age(self, queryset, name, value):
+        today = date.today()
+        min_birth_date = today.replace(year=today.year - value)
+        return queryset.filter(birth_date__lte=min_birth_date)
+
+    def filter_max_age(self, queryset, name, value):
+        today = date.today()
+        max_birth_date = today.replace(year=today.year - value)
+        return queryset.filter(birth_date__gte=max_birth_date)
 
 
 class OrganizationFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(field_name='name', lookup_expr='icontains')
-    org_type = django_filters.ChoiceFilter(field_name='org_type', choices=[('ЮЛ', 'Юридическое лицо'), ('НКО', 'Некоммерческая организация')])
+    inn = django_filters.CharFilter(field_name='inn', lookup_expr='icontains')
+    org_type = django_filters.ChoiceFilter(field_name='org_type',
+                                           choices=[('ЮЛ', 'Юридическое лицо'), ('НКО', 'Некоммерческая организация')])
 
     class Meta:
         model = Organization
-        fields = ['name', 'org_type']
+        fields = ['inn', 'org_type']
 
 
 class EventFilter(django_filters.FilterSet):
-    category = django_filters.CharFilter(field_name='category', lookup_expr='icontains')
-    organizer = django_filters.CharFilter(field_name='organizer__name', lookup_expr='icontains')
-    start_date = django_filters.DateFilter(field_name='start_date', lookup_expr='gte')
-    end_date = django_filters.DateFilter(field_name='end_date', lookup_expr='lte')
+    district = django_filters.ModelChoiceFilter(queryset=District.objects.all())
+    date = django_filters.DateFromToRangeFilter(field_name='date')  # Фильтр для диапазона дат
+    organization = django_filters.ModelChoiceFilter(queryset=Organization.objects.all())
+    tags = django_filters.ModelMultipleChoiceFilter(
+        field_name='event_tags__tag',
+        queryset=EventTag.objects.all(),
+        conjoined=False,
+        to_field_name='tag'
+    )
 
     class Meta:
         model = Event
-        fields = ['category', 'organizer', 'start_date', 'end_date']
+        fields = ['district', 'date', 'organization', 'tags']
 
 
 
