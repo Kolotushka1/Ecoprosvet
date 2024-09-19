@@ -35,9 +35,10 @@ class User(models.Model):
         db_table = 'user'
 
     def get_gender_display(self):
+
         return {
-            True: "М",
-            False: "Ж"
+            1: "М",
+            0: "Ж"
         }[self.gender]
 
     def __str__(self):

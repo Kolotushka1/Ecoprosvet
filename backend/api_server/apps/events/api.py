@@ -193,7 +193,7 @@ def export_users_excel(request):
         data.append({
             'ID': user.id,
             'Имя': user.fio,
-            'Пол': user.get_gender_display(),
+            'Пол': user.get_gender_display() if user.gender is not None else 'Не указан',
             'Email': user.email,
             'Район': user.district.name if user.district else '',
             'Телефон': user.phone_number,

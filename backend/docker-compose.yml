@@ -1,6 +1,6 @@
 services:
   web:
-    build: .
+    build: ./api_server
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./api_server:/app  # Правильное указание volume для синхронизации кода
@@ -8,6 +8,5 @@ services:
       - "443:8000"
     networks:
       - django_network
-
 networks:
   django_network:
