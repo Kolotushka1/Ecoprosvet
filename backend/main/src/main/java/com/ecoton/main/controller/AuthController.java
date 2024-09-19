@@ -81,6 +81,10 @@ public class AuthController {
             return new ResponseEntity<>("Почта занята!", HttpStatus.BAD_REQUEST);
         }
 
+        if (appUserService.existsByPhone(registerOrganizationDto.getPhone()) && registerOrganizationDto.getPhone() != null) {
+            return new ResponseEntity<>("Телефон занят!", HttpStatus.BAD_REQUEST);
+        }
+
         if (result.hasErrors()) {
             return new ResponseEntity<>(result.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -109,10 +113,10 @@ public class AuthController {
     }
 
     @PostMapping("check/token")
-    public ResponseEntity<Boolean> checkToken(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String token) {
         token = jwtGenerator.cutJwt(token);
         if (!jwtGenerator.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return new ResponseEntity<>(true, HttpStatus.OK);
     }

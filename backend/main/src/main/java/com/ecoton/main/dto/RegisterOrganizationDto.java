@@ -27,7 +27,7 @@ public class RegisterOrganizationDto {
     @NotBlank()
     private String addressRegistration; // обязательно
     @NotBlank(message = "Должен быть 12 цифр")
-    @Size(min = 11, max = 13)
+    @Size(min = 10, max = 13)
     private String inn; // обязательно
     @NotBlank()
     private String name; // обязательно
