@@ -31,7 +31,6 @@
 }
 
 .hero-section__link:hover {
-	background-color: #8e9e81;
 }
 
 .hero-section__map {
@@ -72,7 +71,7 @@
 	}
 
 	.hero-section__title {
-		font-size: 25px;
+		font-size: 30px;
 	}
 
 	.hero-section__description {

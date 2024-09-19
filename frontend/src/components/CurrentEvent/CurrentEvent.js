@@ -10,6 +10,7 @@ export const CurrentEvent = () => {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(null)
 	const [currentImageIndex, setCurrentImageIndex] = useState(0)
+	const [isModalOpen, setModalOpen] = useState(false) // Для модального окна
 
 	useEffect(() => {
 		const loadEvent = async () => {
@@ -39,12 +40,12 @@ export const CurrentEvent = () => {
 		return () => clearInterval(interval)
 	}, [event])
 
-	if (loading) {
-		return <div>Загрузка...</div>
+	const openModal = () => {
+		setModalOpen(true)
 	}
 
-	if (error) {
-		return <div>{error}</div>
+	const closeModal = () => {
+		setModalOpen(false)
 	}
 
 	const nextSlide = () => {
@@ -55,6 +56,14 @@ export const CurrentEvent = () => {
 		setCurrentImageIndex(prevIndex => (prevIndex === 0 ? event.photos.length - 1 : prevIndex - 1))
 	}
 
+	if (loading) {
+		return <div>Загрузка...</div>
+	}
+
+	if (error) {
+		return <div>{error}</div>
+	}
+
 	const formatedDate = formatDate(event.date)
 	return (
 		<article className='event'>
@@ -63,7 +72,7 @@ export const CurrentEvent = () => {
 					<h1 className='event__title'>{event.title}</h1>
 					<ul className='card__tags-list'>
 						{event.tags.map(tag => (
-							<li className='card__tags-item' key={tag.id}>
+							<li className='card__tags-item' key={tag}>
 								<Link className='card__tags-link' to={'/'}>
 									{tag}
 								</Link>
@@ -77,10 +86,10 @@ export const CurrentEvent = () => {
 								<img className='slider__image' src={event.photos[currentImageIndex]} alt={`Slide ${currentImageIndex + 1}`} />
 							</div>
 							<button className='slider__button slider__button--left' onClick={prevSlide}>
-								<img className='slider__button-image' src='/arrow-left.svg' alt='Стрелка для переключения слайдов влево' />
+								<img className='slider__button-image' src='/images/arrow-left.svg' alt='Стрелка для переключения слайдов влево' />
 							</button>
 							<button className='slider__button slider__button--right' onClick={nextSlide}>
-								<img className='slider__button-image' src='/arrow-right.svg' alt='Стрелка для переключения слайдов вправо' />
+								<img className='slider__button-image' src='/images/arrow-right.svg' alt='Стрелка для переключения слайдов вправо' />
 							</button>
 						</article>
 					)}
@@ -88,6 +97,24 @@ export const CurrentEvent = () => {
 					<p className='event__date'>Дата проведения:</p>
 					<p className='event__date-text'>{formatedDate}</p>
 					<p className='event__description'>{event.description}</p>
+					<button className='event__button' type='button' onClick={openModal}>
+						Записаться
+					</button>
+
+					{isModalOpen && (
+						<div className='modal'>
+							<div className='modal__content'>
+								<h2>Подтверждение записи</h2>
+								<p>Действительно ли вы хотите записаться на мероприятие?</p>
+								<button className='modal__confirm' onClick={closeModal}>
+									Да
+								</button>
+								<button className='modal__cancel' onClick={closeModal}>
+									Отмена
+								</button>
+							</div>
+						</div>
+					)}
 				</>
 			)}
 		</article>

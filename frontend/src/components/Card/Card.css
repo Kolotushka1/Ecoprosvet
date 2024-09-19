@@ -105,6 +105,12 @@
 	}
 }
 
+@media (max-width: 600px) {
+	.card__description {
+		font-size: 20px;
+	}
+}
+
 /* .card__button::after {
 	content: '';
 	position: absolute;

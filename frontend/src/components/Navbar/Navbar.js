@@ -11,7 +11,7 @@ export const Navbar = () => {
 	return (
 		<nav className='header__nav'>
 			<Link className='header__logo' to='/'>
-				<img className='header__logo-image' src='/flower.svg' alt='Логотип сайта в виде цветка' />
+				<img className='header__logo-image' src='/images/flower.svg' alt='Логотип сайта в виде цветка' />
 			</Link>
 			<ul className={`header__nav-list ${isOpen ? 'header__nav-list--open' : ''}`}>
 				<li className='header__nav-item'>
@@ -41,7 +41,7 @@ export const Navbar = () => {
 				</li>
 			</ul>
 			<button className='header__nav-button' onClick={toggleMenu}>
-				<img className='header__nav-button-image' src={isOpen ? '/close.svg' : '/menu.svg'} alt={isOpen ? 'Закрыть меню' : 'Открыть меню'} />
+				<img className='header__nav-button-image' src={isOpen ? '/images/close.svg' : '/images/menu.svg'} alt={isOpen ? 'Кнопка закрытия меню' : 'Кнопка открытия меню'} />
 			</button>
 		</nav>
 	)
