@@ -1,0 +1,19 @@
+body {
+	max-inline-size: 1340px;
+	min-inline-size: 320px;
+	block-size: 100vh;
+	padding: 0 10px;
+	margin: 0 auto;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed;
+	background-color: #eaeeed;
+	font-family: 'Mulish', sans-serif;
+}
+
+@media (max-width: 1200px) {
+	body {
+		padding: 0 5px;
+	}
+}
