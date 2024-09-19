@@ -1,7 +1,7 @@
 .card {
 	border-radius: 60px;
 	padding: 30px;
-	background-color: #e8e5e5;
+	background-color: #f8f8f8;
 	inline-size: 100%;
 	transition: transform 0.3s ease-in-out;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -30,6 +30,8 @@
 	padding: 5px 13px;
 	background-color: #79e497; /* Сделать кастомный цвет*/
 	text-decoration: none;
+	font-size: 15px;
+	font-weight: 600;
 	border-radius: 50px;
 }
 
@@ -43,12 +45,15 @@
 }
 
 .card__date {
-	margin: 0 0 30px 0;
+	margin: 0 0 8px 0;
 }
 
-.card__date span {
+.card__date-text {
+	display: inline-block;
 	padding: 5px 10px;
 	background-color: #a6c85c;
+	border-radius: 20px;
+	margin: 0 0 20px 0;
 }
 
 .card__image-wrapper {
@@ -68,7 +73,7 @@
 
 .card__description {
 	margin: 0 0 58px 0;
-	font-size: 24px;
+	font-size: 22px;
 }
 
 .card__button {
@@ -78,7 +83,7 @@
 	background-color: #79e497;
 	inline-size: 100%;
 	padding: 12px 0;
-	border-radius: 25px;
+	border-radius: 20px;
 	cursor: pointer;
 	text-decoration: none;
 	font-size: 20px;
@@ -87,6 +92,13 @@
 
 .card__button:hover {
 	background-color: #a6c85c;
+}
+
+@media (max-width: 960px) {
+	.card__title {
+		inline-size: 300px;
+		font-size: 25px;
+	}
 }
 
 /* .card__button::after {

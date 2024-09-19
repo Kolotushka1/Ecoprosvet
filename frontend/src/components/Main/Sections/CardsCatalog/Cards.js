@@ -34,7 +34,7 @@ export const Cards = () => {
 	return (
 		<section className='section cards-section'>
 			<ul className='cards__list'>
-				{events.map(event => (
+				{events.slice(0, 4).map(event => (
 					<Card
 						key={event.id} // Используем id события как ключ
 						id={event.id}

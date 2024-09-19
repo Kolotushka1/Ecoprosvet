@@ -11,7 +11,7 @@ export const Navbar = () => {
 	return (
 		<nav className='header__nav'>
 			<Link className='header__logo' to='/'>
-				<img className='header__logo-image' src='flower.svg' alt='Логотип сайта в виде цветка' />
+				<img className='header__logo-image' src='/flower.svg' alt='Логотип сайта в виде цветка' />
 			</Link>
 			<ul className='header__nav-list'>
 				<li className='header__nav-item'>
@@ -34,10 +34,10 @@ export const Navbar = () => {
 						О нас
 					</Link>
 				</li>
-				<button className='header__nav-button' onClick={toggleMenu}>
-					<img className='header__nav-button-image' src={isOpen ? 'close.svg' : 'menu.svg'} alt={isOpen ? 'Закрыть меню' : 'Открыть меню'} />
-				</button>
 			</ul>
+			<button className='header__nav-button' onClick={toggleMenu}>
+				<img className='header__nav-button-image' src={isOpen ? '/close.svg' : '/menu.svg'} alt={isOpen ? 'Закрыть меню' : 'Открыть меню'} />
+			</button>
 		</nav>
 	)
 }

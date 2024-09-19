@@ -16,11 +16,10 @@ export const Card = ({ id, tags, title, image, about, link, date }) => {
 					))}
 				</ul>
 				<h2 className='card__title'>{title}</h2>
-				<p className='card__date'>
-					Дата проведения мероприятия: <span>{formatDate(date)}</span>
-				</p>
+				<p className='card__date'>Дата проведения мероприятия:</p>
+				<span className='card__date-text'>{formatDate(date)}</span>
 				<div className='card__image-wrapper'>
-					<img src={image} alt={title} className='card__image' />
+					<img className='card__image' loading='lazy' src={image} alt={title} />
 				</div>
 				<p className='card__description'>{about}</p>
 				<Link to={`/events/${id}`} href={link} className='card__button'>

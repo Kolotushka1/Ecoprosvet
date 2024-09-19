@@ -1,8 +1,9 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import { Auth } from '../../pages/Auth.js'
+import { Event } from '../../pages/Event.js'
 import { Events } from '../../pages/Events.js'
 import { Home } from '../../pages/Home.js'
 import { Map } from '../../pages/Map.js'
-import { CurrentEvent } from '../CurrentEvent/CurrentEvent.js'
 import { Footer } from '../Footer/Footer.js'
 import { Header } from '../Header/Header.js'
 import './App.css'
@@ -16,10 +17,8 @@ function App() {
 					<Route index path='/' element={<Home />} />
 					<Route index path='/events' element={<Events />} />
 					<Route index path='/map' element={<Map />} />
-					<Route index path='/events/:id' element={<CurrentEvent />} />
-					{/* <Route index path='/events/:id	' element={<CurrentEvent />} /> */}
-					{/* <Route path='/about' element={<About />} />
-					<Route path='/events' element={<Events />} /> */}
+					<Route index path='/events/:id' element={<Event />} />
+					<Route index path='/auth' element={<Auth />} />
 				</Routes>
 				<Footer />
 			</Router>

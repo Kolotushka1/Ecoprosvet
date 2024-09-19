@@ -2,29 +2,57 @@ import './Footer.css'
 
 export const Footer = () => {
 	return (
-		<footer className='footer'>
-			<a className='header__logo' href='#'>
-				<img className='header__logo-image' src='flower.svg' alt='Логотип сайта в виде цветка' />
-			</a>
-			<nav className='footer__nav'>
-				<ul className='footer__nav-list'>
-					<li className='header__nav-item'>
-						<a className='header__nav-link'>О портале</a>
+		<footer class='footer'>
+			<address class='address footer__address'>
+				<a class='address-link' href='tel:+9999555555'>
+					+9 999 555 5555
+				</a>
+				<br />
+				<a class='address-link' href='mailto:info@sobaka.ge'>
+					info@sobaka.ge
+				</a>
+				<p class='address__city'>
+					наб. Принсенграхт 263-
+					<br />
+					265, Москва
+				</p>
+			</address>
+			<nav class='footer__menu'>
+				<ul class='footer__menu-list'>
+					<li class='footer__menu-list-item'>
+						<a class='footer__menu-link footer__menu-link_active' href='#'>
+							главная
+						</a>
 					</li>
-					<li className='header__nav-item'>
-						<a className='header__nav-link'>Карта</a>
+					<li class='footer__menu-list-item'>
+						<a class='footer__menu-link' href='#'>
+							посмотреть мероприятия
+						</a>
 					</li>
-					<li className='header__nav-item'>
-						<a className='header__nav-link'>Новости</a>
-					</li>
-					<li className='header__nav-item'>
-						<a className='header__nav-link'>Посетителям</a>
+					<li class='footer__menu-list-item'>
+						<a class='footer__menu-link' href='#'>
+							об аукционе
+						</a>
 					</li>
 				</ul>
-				<button className='header__nav-button'>
-					<img className='header__nav-button-image' src='menu.svg' alt='Меню' />
-				</button>
 			</nav>
+			<ul class='footer__social-list'>
+				<li class='footer__social-list-item'>
+					<a class='footer__social-link' href='#'>
+						<img class='footer__social-icon' src='./images/yt.svg' alt='Иконка Ютуб' />
+					</a>
+				</li>
+				<li class='footer__social-list-item'>
+					<a class='footer__social-link' href='#'>
+						<img class='footer__social-icon' src='./images/vk.svg' alt='Иконка Вконтакте' />
+					</a>
+				</li>
+				<li class='footer__social-list-item'>
+					<a class='footer__social-link' href='#'>
+						<img class='footer__social-icon' src='./images/pinterest.svg' alt='Иконка Пинтерест' />
+					</a>
+				</li>
+			</ul>
 		</footer>
 	)
 }

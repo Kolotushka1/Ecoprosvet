@@ -1,3 +1,47 @@
 .footer {
-	background-color: #084935;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	padding: 0 50px;
+	justify-content: space-between;
+	margin: 0 0 88px 0;
+}
+
+.footer__address {
+	align-self: start;
+}
+
+.footer__city {
+	line-height: 26px;
+}
+
+.footer__menu {
+	align-self: start;
+}
+
+.footer__menu-list {
+	list-style: none;
+	text-align: center;
+}
+
+.footer__menu-link {
+	font-size: 18px;
+	text-underline-offset: 3.5px;
+}
+
+.footer__menu-link_active {
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.footer__social-list {
+	display: flex;
+	justify-self: end;
+	column-gap: 48px;
+	list-style: none;
+}
+
+.footer__social-link {
+	display: block;
+	width: 48px;
+	height: 48px;
 }

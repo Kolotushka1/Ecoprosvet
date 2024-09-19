@@ -17,7 +17,7 @@
 	align-items: center;
 	text-align: center;
 	column-gap: 30px;
-	color: #c4b5b5;
+	color: #000000;
 }
 
 .header__nav-item {
@@ -26,6 +26,7 @@
 
 .header__nav-link {
 	font-size: 20px;
+	font-weight: 400;
 	text-decoration: none;
 }
 
@@ -40,5 +41,9 @@
 @media (max-width: 725px) {
 	.header__nav-button {
 		display: block;
+	}
+
+	.header__nav-list {
+		display: none;
 	}
 }

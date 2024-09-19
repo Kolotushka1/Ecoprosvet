@@ -41,7 +41,7 @@ ol {
 	list-style: none;
 }
 
-.visually-hidden {
+/* .visually-hidden {
 	position: absolute;
 	inline-size: 1px;
 	block-size: 1px;
@@ -49,4 +49,4 @@ ol {
 	clip: rect(0 0 0 0);
 	clip-path: inset(50%);
 	white-space: nowrap;
-}
+} */
