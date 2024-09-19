@@ -7,15 +7,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Component
 public class JwtGenerator {
@@ -38,21 +34,24 @@ public class JwtGenerator {
         return token;
     }
 
-    public String generateToken(String username) {
-        Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + JWT_EXPIRATION);
+    public String generateRegistrationToken(Long organizationId) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("organizationId", organizationId);
 
-        String token = Jwts
-                .builder()
-                .setSubject(username)
-                .setIssuedAt(currentDate)
-                .setExpiration(expireDate)
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
-        return token;
     }
 
     public String getEmailFromJWT(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
+        return claims.getSubject();
+    }
+
+    public String getIdFromJWT(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
         return claims.getSubject();
     }

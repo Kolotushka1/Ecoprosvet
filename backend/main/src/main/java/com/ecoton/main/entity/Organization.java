@@ -1,8 +1,8 @@
 package com.ecoton.main.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "organization")
@@ -24,4 +24,8 @@ public class Organization {
     private String pointX;
     private String pointY;
     private Boolean isEcoCentre = false;
+    @Enumerated(EnumType.STRING)
+    private OrgType orgType;
+    @Column(columnDefinition = "TEXT")
+    private String data;
 }

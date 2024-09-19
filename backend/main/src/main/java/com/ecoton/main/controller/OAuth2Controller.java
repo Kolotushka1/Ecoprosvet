@@ -71,8 +71,12 @@ public class OAuth2Controller {
                 new UsernamePasswordAuthenticationToken(appUserNew.getEmail(), null, null));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        System.out.println(token);
         return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
+    }
+
+    @PostMapping("/oauth2/vk")
+    public ResponseEntity<?> vkLogin(@RequestBody OAuth2TokenRequest loginRequest) {
+        
     }
 
 }

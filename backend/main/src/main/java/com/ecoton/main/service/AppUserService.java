@@ -18,9 +18,10 @@ public class AppUserService {
         this.appUserRepository = appUserRepository;
     }
 
-    public void createAppUser(RegisterDto registerDto, String password) {
+    public AppUser createAppUser(RegisterDto registerDto, String password) {
         AppUser appUser = mapRegisterDtoToAppUser(registerDto, password);
         appUserRepository.save(appUser);
+        return appUser;
     }
 
     public AppUser createAppUser(RegisterOrganizationDto registerOrganizationDto, String password) {

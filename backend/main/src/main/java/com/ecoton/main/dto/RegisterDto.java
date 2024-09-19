@@ -24,4 +24,5 @@ public class RegisterDto {
     private String name; // обязательно
     @NotBlank()
     private String surname; // обязательно
+    private String tokenRegister;
 }
