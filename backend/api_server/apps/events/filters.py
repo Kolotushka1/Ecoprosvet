@@ -11,10 +11,11 @@ class UserFilter(django_filters.FilterSet):
     max_age = django_filters.NumberFilter(method='filter_max_age')
     gender = django_filters.CharFilter(field_name='gender', lookup_expr='icontains')
     district = django_filters.ModelChoiceFilter(queryset=District.objects.all())
+    active_event = django_filters.BooleanFilter(method='filter_active_event')
 
     class Meta:
         model = User
-        fields = ['min_age', 'max_age', 'gender', 'district']
+        fields = ['min_age', 'max_age', 'gender', 'district', 'active_event']
 
     def filter_min_age(self, queryset, name, value):
         today = date.today()
@@ -25,6 +26,9 @@ class UserFilter(django_filters.FilterSet):
         today = date.today()
         max_birth_date = today.replace(year=today.year - value)
         return queryset.filter(birth_date__gte=max_birth_date)
+
+    def filter_active_event(self, queryset, name, value):
+        return queryset.filter(event_users__active=value)
 
 
 class OrganizationFilter(django_filters.FilterSet):
