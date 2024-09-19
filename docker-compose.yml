@@ -24,6 +24,14 @@ services:
     networks:
       - frontend_network
 
+  spring-app:
+    build: ./backend/main  # Path to your Spring Boot application
+    ports:
+      - "8090:8090"  # Expose the Spring Boot app on port 8090
+    networks:
+      - backend_network  # Adding to the backend network for connectivity with other services
+      - frontend_network
+
   nginx:
     image: nginx:alpine
     ports:
@@ -33,6 +41,7 @@ services:
     depends_on:
       - web
       - react-app
+      - spring-app  # Make sure nginx waits for spring-app to start
     networks:
       - django_network
       - frontend_network
@@ -40,3 +49,4 @@ services:
 networks:
   django_network:
   frontend_network:
+  backend_network:
